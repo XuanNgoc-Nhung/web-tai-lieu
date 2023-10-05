@@ -1,0 +1,77 @@
+
+.dts-noty-success {
+    background: #67c23a !important;
+}
+
+.dts-noty-info {
+    background: #909399 !important;
+}
+
+.dts-noty-warning {
+    background: #e6a23c !important;
+}
+
+.dts-noty-error {
+    background: #f56c6c !important;
+}
+
+.el-message__content {
+    color: white !important;
+}
+
+.el-message .el-icon-error {
+    color: white !important;
+}
+
+.el-message .el-icon-success {
+    color: white !important;
+}
+
+.el-message .el-icon-warning {
+    color: white !important;
+}
+
+.el-message .el-icon-info {
+    color: white !important;
+}
+
+@media only screen and (max-width: 1200px) {
+    .register-btn a {
+        padding: 20px 20px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .register-btn a {
+        font-size: 10px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .register-btn a {
+        font-size: 16px;
+    }
+}
+
+.el-form-item__content {
+    line-height: 22px !important;
+}
+.pl-2{
+    padding-left: 20px;
+}
+.user-home table, th, td {
+    border: 2px solid #c7ba79;
+    border-collapse: collapse;
+    padding: 4px;
+}
+.table>:not(:first-child){
+    border-top: 0px solid currentColor;
+}
+.text-right{
+    text-align: right;
+}
+.minWidth375{
+    min-width: 375px;
+}
+.el-input.is-disabled .el-input__inner{
+    color: black !important;
+}
