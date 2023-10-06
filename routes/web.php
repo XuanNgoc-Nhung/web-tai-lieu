@@ -22,4 +22,9 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/chuong-trinh-dao-tao', 'AdminController@getChuongTrinhDaoTao')->name('admin.chuongTrinhDaoTao');
     Route::get('/mon-hoc', 'AdminController@getMonHoc')->name('admin.monHoc');
     Route::get('/tai-lieu', 'AdminController@getTaiLieu')->name('admin.taiLieu');
+    Route::post('/them-chuong-trinh-dao-tao', 'AdminController@themChuongTrinhDaoTao');
+    Route::post('/them-mon-hoc', 'AdminController@themMonHoc');
+    Route::post('/sua-chuong-trinh-dao-tao', 'AdminController@suaChuongTrinhDaoTao');
+    Route::post('/lay-danh-sach-chuong-trinh-dao-tao', 'AdminController@layDanhSachChuongTrinhDaoTao');
+    Route::post('/lay-danh-sach-mon-hoc', 'AdminController@layDanhSachMonHoc');
 });

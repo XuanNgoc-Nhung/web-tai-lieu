@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 mix
     .js('resources/js/admin-chuong-trinh-dao-tao.js', 'public/js/admin-chuong-trinh-dao-tao.js')
+    .js('resources/js/admin-quan-ly-mon-hoc.js', 'public/js/admin-quan-ly-mon-hoc.js')
     .options({
         processCssUrls: false
     })

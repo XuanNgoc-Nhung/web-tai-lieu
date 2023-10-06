@@ -6,8 +6,10 @@
             <div class="card">
                 <div class="card-header">
                     <el-row :gutter="24">
-                        <el-col :span="12">
-                            <h5 class="card-title">Cấu hình</h5></el-col>
+                        <el-col :span="12"><h5 class="card-title">Chương trình đào tạo</h5></el-col>
+                        <el-col :span="12" class="text-right">
+                            <el-button type="primary" @click.prevent="showAdd()">Thêm mới</el-button>
+                        </el-col>
                     </el-row>
                 </div>
                 <div class="card-body">
@@ -16,134 +18,20 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>STT</th>
-                                <th>QR</th>
-                                <!--                                <th>Chuyển quỹ</th>-->
-                                <!--                                <th>Nạp tiền</th>-->
-                                <!--                                <th>Rút tiền</th>-->
-                                <th>Thanh toán trực tuyến</th>
-                                <th>Thanh toán qrcode</th>
-                                <th>Thanh toán atm</th>
-                                <th>Thanh toán điện tử</th>
-                                <th>Thanh toán tại quầy</th>
-                                <th>Thanh toán momo</th>
-                                <th>Thanh toán viettelPay</th>
+                                <th>Tên chương trình</th>
+                                <th>Thời gian tạo</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody v-if="list_data&&list_data.length">
                             <tr v-for="(item,index) in list_data" :key="index">
                                 <td class="text-center">{{ index + 1 }}</td>
+                                <td><p>{{ item.ten }}</p></td>
+                                <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
-                                    <span style="text-align:left">Qr ngân hàng</span>
-                                    <el-card shadow="always" >
-                                        <img :src="item.qr_bank" alt="" style="min-width:100px;min-height:100px;max-width:150px;max-height:150px">
-                                    </el-card>
-                                    <span style="text-align:left">Qr momo</span>
-                                    <el-card shadow="always">
-                                        <img :src="item.qr_momo" alt="" style="min-width:100px;min-height:100px;max-width:150px;max-height:150px">
-                                    </el-card>
-                                    <el-button size="mini" type="warning" class="mt-3"
-                                               @click.prevent="showUpdateQr(item)">Sửa
+                                    <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
                                     </el-button>
-                                </td>
-                                <!--                                <td class="text-center">-->
-                                <!--                                    <el-switch-->
-                                <!--                                        @change="setStatus(item)"-->
-                                <!--                                        v-model="item.chuyen_quy"-->
-                                <!--                                        active-color="#13ce66"-->
-                                <!--                                        inactive-color="#ff4949"-->
-                                <!--                                        active-text=" "-->
-                                <!--                                        inactive-text=" ">-->
-                                <!--                                    </el-switch>-->
-                                <!--                                </td>-->
-                                <!--                                <td class="text-center">-->
-                                <!--                                    <el-switch-->
-                                <!--                                        @change="setStatus(item)"-->
-                                <!--                                        v-model="item.nap_tien"-->
-                                <!--                                        active-color="#13ce66"-->
-                                <!--                                        inactive-color="#ff4949"-->
-                                <!--                                        active-text=" "-->
-                                <!--                                        inactive-text=" ">-->
-                                <!--                                    </el-switch>-->
-                                <!--                                </td>-->
-                                <!--                                <td class="text-center">-->
-                                <!--                                    <el-switch-->
-                                <!--                                        @change="setStatus(item)"-->
-                                <!--                                        v-model="item.rut_tien"-->
-                                <!--                                        active-color="#13ce66"-->
-                                <!--                                        inactive-color="#ff4949"-->
-                                <!--                                        active-text=" "-->
-                                <!--                                        inactive-text=" ">-->
-                                <!--                                    </el-switch>-->
-                                <!--                                </td>-->
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_truc_tuyen"
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        active-text=" "
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_qrcode"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_atm"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_dien_tu"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_tai_quay"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_momo"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
-                                </td>
-                                <td class="text-center">
-                                    <el-switch
-                                        @change="setStatus(item)"
-                                        v-model="item.thanh_toan_viettel"
-                                        active-text=" "
-                                        active-color="#13ce66"
-                                        inactive-color="#ff4949"
-                                        inactive-text=" ">
-                                    </el-switch>
+                                    <el-button size="mini" type="danger">Xóa</el-button>
                                 </td>
                             </tr>
                             </tbody>
@@ -162,6 +50,46 @@
                     </div>
                 </div>
             </div>
+        </el-col>
+        <el-col :span="24">
+            <el-dialog
+                title="Thêm mới chương trình đào tạo"
+                :visible.sync="show_add"
+                custom-class="minWidth375"
+                width="50%"
+                :before-close="handleClose">
+                <div>
+                    <el-row :gutter="24">
+                        <el-col :span="24">
+                            <label>Tên chương trình đào tạo</label>
+                            <el-input v-model="dataAdd.ten" type="text" placeholder="Nhập"></el-input>
+                        </el-col>
+                    </el-row>
+                </div>
+                <span slot="footer" class="dialog-footer">
+    <el-button @click="show_add = false">Đóng</el-button>
+    <el-button type="primary" @click="confirmAdd()">Thêm mới</el-button>
+  </span>
+            </el-dialog>
+            <el-dialog
+                title="Chỉnh sửa chương trình đào tạo"
+                :visible.sync="show_update"
+                custom-class="minWidth375"
+                width="50%"
+                :before-close="handleClose">
+                <div>
+                    <el-row :gutter="24">
+                        <el-col :span="24">
+                            <label>Tên chương trình đào tạo</label>
+                            <el-input v-model="dataUpdate.ten" type="text" placeholder="Nhập"></el-input>
+                        </el-col>
+                    </el-row>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="show_update = false">Đóng</el-button>
+                    <el-button type="warning" @click="confirmUpdate()">Chỉnh sửa</el-button>
+                  </span>
+            </el-dialog>
         </el-col>
     </el-row>
 </template>
@@ -188,6 +116,8 @@ export default {
                 status: false,
                 text: 'Loading...'
             },
+            show_update: false,
+            show_add: false,
             trangbatdau: false,
             paging: {
                 total: 0,
@@ -195,13 +125,92 @@ export default {
                 limit: 10,
                 currentPage: 1
             },
+            dataAdd: {
+                ten: ''
+            },
+            dataUpdate: {}
         }
     },
     mounted() {
-        console.log('Mounted Configs...');
+        console.log('Mounted Chương trình đào tạo...');
+        this.getData();
     },
     methods: {
-        layLai(){},
+        showUpdate(item) {
+            this.dataUpdate = JSON.parse(JSON.stringify(item))
+            this.show_update = true;
+        },
+        getData() {
+            this.handleClose();
+            let params = {
+                start: this.paging.start,
+                limit: this.paging.limit,
+                key: ''
+            }
+            var url = '/admin/lay-danh-sach-chuong-trinh-dao-tao'
+            this.loading.status = true;
+            this.loading.text = 'Loading...'
+            rest_api.post(url, params).then(
+                response => {
+                    if (response.data.rc == 0) {
+                        this.list_data = response.data.data;
+                        this.paging.total = response.data.total
+                    } else {
+                        this.list_data = [];
+                        this.paging.total = 0;
+                        this.thongBao('error', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
+        confirmUpdate(){
+            let params = {
+                ten: this.dataUpdate.ten,
+                id:this.dataUpdate.id
+            }
+            rest_api.post('/admin/sua-chuong-trinh-dao-tao', params).then(
+                response => {
+                    if (response && response.data.rc == 0) {
+                        this.handleClose();
+                        this.getData()
+                        this.thongBao('success', 'Thành công')
+                    } else {
+                        this.thongBao('error', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
+        confirmAdd() {
+            let params = {
+                ten: this.dataAdd.ten
+            }
+            rest_api.post('/admin/them-chuong-trinh-dao-tao', params).then(
+                response => {
+                    if (response && response.data.rc == 0) {
+                        this.handleClose();
+                        this.getData()
+                        this.thongBao('success', 'Thành công')
+                    } else {
+                        this.thongBao('error', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
+        showAdd() {
+            this.show_add = true;
+        },
+        handleClose() {
+            this.show_add = false;
+            this.show_update = false;
+        },
+        layLai() {
+        },
         thongBao(typeNoty, msgNoty) {
             let msg = "";
             let cl = "";
