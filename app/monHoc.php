@@ -10,4 +10,7 @@ class monHoc extends Model
         'ten_mon','ctdt_id'
     ];
     protected $table = 'mon-hoc';
+    public function chuongTrinhDaoTao(){
+        return $this->hasOne(chuongTrinhDaoTao::class,'id','ctdt_id');
+    }
 }

@@ -3,7 +3,9 @@
         :gutter="24"
         v-loading.fullscreen.lock="loading.status" class="row">
         <el-col :span="8" style="padding-bottom: 15px;">
+            <label>Chương trình đào tạo</label>
             <el-select v-model="dataSearch.ctdt" style="width: 100%" filterable placeholder="Chọn">
+                <el-option value="" label="Chọn"></el-option>
                 <el-option
                     v-for="item in list_chuong_trinh_dao_tao"
                     :key="item.id"
@@ -13,7 +15,7 @@
             </el-select>
         </el-col>
         <el-col :span="6">
-            <label style="color: transparent"></label>
+            <label style="color: transparent;display:block">Tìm kiếm</label>
             <el-button type="success" @click.prevent="getData()">Tìm kiếm</el-button>
         </el-col>
         <el-col :span="24">
@@ -32,7 +34,8 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>STT</th>
-                                <th>Tên chương trình</th>
+                                <th>Chương trình đào tạo</th>
+                                <th>Môn học</th>
                                 <th>Thời gian tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -40,12 +43,14 @@
                             <tbody v-if="list_data&&list_data.length">
                             <tr v-for="(item,index) in list_data" :key="index">
                                 <td class="text-center">{{ index + 1 }}</td>
-                                <td><p>{{ item.ten }}</p></td>
+                                <td><p>{{ item.chuong_trinh_dao_tao ? item.chuong_trinh_dao_tao.ten : 'Trống' }}</p>
+                                </td>
+                                <td><p>{{ item.ten_mon }}</p></td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
                                     </el-button>
-                                    <el-button size="mini" type="danger">Xóa</el-button>
+                                    <el-button size="mini" @click.prevent="confirmDel(item)" type="danger">Xóa</el-button>
                                 </td>
                             </tr>
                             </tbody>
@@ -87,7 +92,8 @@
                         </el-col>
                         <el-col :span="12">
                             <label>Tên chương trình đào tạo</label>
-                            <el-input style="width: 100%" v-model="dataAdd.name" type="text" placeholder="Nhập"></el-input>
+                            <el-input style="width: 100%" v-model="dataAdd.name" type="text"
+                                      placeholder="Nhập"></el-input>
                         </el-col>
                     </el-row>
                 </div>
@@ -104,9 +110,21 @@
                 :before-close="handleClose">
                 <div>
                     <el-row :gutter="24">
-                        <el-col :span="24">
+                        <el-col :span="12">
+                            <label>Chương trình đào tạo</label>
+                            <el-select v-model="dataUpdate.ctdt_id" style="width: 100%" filterable placeholder="Chọn">
+                                <el-option
+                                    v-for="item in list_chuong_trinh_dao_tao"
+                                    :key="item.id"
+                                    :label="item.ten"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="12">
                             <label>Tên chương trình đào tạo</label>
-                            <el-input v-model="dataUpdate.ten" type="text" placeholder="Nhập"></el-input>
+                            <el-input style="width: 100%" v-model="dataUpdate.ten_mon" type="text"
+                                      placeholder="Nhập"></el-input>
                         </el-col>
                     </el-row>
                 </div>
@@ -119,7 +137,7 @@
     </el-row>
 </template>
 <script>
-import  rest_api from "../../api/rest_api";
+import rest_api from "../../api/rest_api";
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import PhanTrang from "../Ui/phanTrang";
@@ -136,12 +154,12 @@ export default {
     },
     data() {
         return {
-            dataSearch:{
-                ctdt:''
+            dataSearch: {
+                ctdt: ''
             },
-            dataAdd:{
+            dataAdd: {
                 ctdt: '',
-                name:''
+                name: ''
             },
             list_data: [],
             list_chuong_trinh_dao_tao: [],
@@ -167,7 +185,33 @@ export default {
         this.getData();
     },
     methods: {
-        getData(){
+        confirmDel(item) {
+
+            this.$confirm('Xác nhận xoá thông tin ?', 'Thông báo', {
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+            })
+                .then(_ => {
+                    var url = '/admin/delete-mon-hoc'
+                    this.loading.status = true;
+                    this.loading.text = 'Loading...'
+                    rest_api.post(url, {id: item.id}).then(
+                        response => {
+                            if (response.data.rc == 0) {
+                                this.getData()
+                                this.thongBao('success', 'Xoá dữ liệu thành công')
+                            } else {
+                                this.thongBao('error', response.data.rd)
+                            }
+                            this.loading.status = false;
+                        }
+                    ).catch((e) => {
+                    })
+                })
+                .catch(_ => {
+                });
+        },
+        getData() {
             this.handleClose();
             let params = {
                 start: this.paging.start,
@@ -220,12 +264,21 @@ export default {
             ).catch((e) => {
             })
         },
-        confirmUpdate(){
-            let params = {
-                ten: this.dataUpdate.ten,
-                id:this.dataUpdate.id
+        confirmUpdate() {
+            if (!this.dataUpdate.ctdt_id || this.dataUpdate.ctdt_id == '') {
+                this.thongBao('error', 'Chọn chương trình đào tạo.')
+                return
             }
-            rest_api.post('/admin/sua-chuong-trinh-dao-tao', params).then(
+            if (!this.dataUpdate.ten_mon || this.dataUpdate.ten_mon == '') {
+                this.thongBao('error', 'Nhập tên môn học.')
+                return
+            }
+            let params = {
+                ctdt_id: this.dataUpdate.ctdt_id,
+                ten_mon: this.dataUpdate.ten_mon,
+                id: this.dataUpdate.id
+            }
+            rest_api.post('/admin/sua-mon-hoc', params).then(
                 response => {
                     if (response && response.data.rc == 0) {
                         this.handleClose();
@@ -240,17 +293,17 @@ export default {
             })
         },
         confirmAdd() {
-            if(!this.dataAdd.ctdt||this.dataAdd.ctdt==''){
-                this.thongBao('error','Chọn chương trình đào tạo.')
+            if (!this.dataAdd.ctdt || this.dataAdd.ctdt == '') {
+                this.thongBao('error', 'Chọn chương trình đào tạo.')
                 return
             }
-            if(!this.dataAdd.name||this.dataAdd.name==''){
-                this.thongBao('error','Nhập tên môn học.')
+            if (!this.dataAdd.name || this.dataAdd.name == '') {
+                this.thongBao('error', 'Nhập tên môn học.')
                 return
             }
             let params = {
                 ten: this.dataAdd.name,
-                ctdt:this.dataAdd.ctdt
+                ctdt: this.dataAdd.ctdt
             }
 
             rest_api.post('/admin/them-mon-hoc', params).then(
