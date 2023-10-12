@@ -11,4 +11,9 @@ class chuongTrinhDaoTao extends Model
     ];
 
     protected $table = 'chuong-trinh-dao-tao';
+
+    public function monHoc()
+    {
+        return $this->hasMany(monHoc::class, 'ctdt_id', 'id');
+    }
 }

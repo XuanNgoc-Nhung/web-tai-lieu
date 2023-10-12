@@ -3,31 +3,6 @@
         :gutter="24"
         v-loading.fullscreen.lock="loading.status" class="row">
         <el-col :span="6" style="padding-bottom: 15px;">
-            <label>Chương trình đào tạo</label>
-            <el-select v-model="dataSearch.ctdt" @change="chonChuongTrinhDaoTao()" style="width: 100%" filterable
-                       placeholder="Chọn">
-                <el-option value="" label="Chọn"></el-option>
-                <el-option
-                    v-for="item in list_chuong_trinh_dao_tao"
-                    :key="item.id"
-                    :label="item.ten"
-                    :value="item.id">
-                </el-option>
-            </el-select>
-        </el-col>
-        <el-col :span="6" style="padding-bottom: 15px;">
-            <label> Môn học</label>
-            <el-select v-model="dataSearch.mon_hoc" style="width: 100%" filterable placeholder="Chọn">
-                <el-option value="" label="Chọn"></el-option>
-                <el-option
-                    v-for="item in list_mon_hoc"
-                    :key="item.id"
-                    :label="item.ten_mon"
-                    :value="item.id">
-                </el-option>
-            </el-select>
-        </el-col>
-        <el-col :span="6" style="padding-bottom: 15px;">
             <label>Tên tài liệu</label>
             <el-input v-model="dataSearch.ten_tai_lieu" placeholder="Nhập tên tài liệu" clearable></el-input>
         </el-col>
@@ -51,21 +26,51 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>STT</th>
-                                <th>Chương trình đào tạo</th>
-                                <th>Môn học</th>
-                                <th>Thời gian tạo</th>
+                                <th>Tên tài liệu</th>
+                                <th>Môn học chính</th>
+                                <th>Môn học phụ</th>
+                                <th>Mô tả</th>
+                                <th>Nội dung</th>
+                                <th>Tác giả</th>
+                                <th>Thẻ</th>
+                                <th>Lượt xem</th>
+                                <th>File tài liệu</th>
+                                <th>Ảnh bìa</th>
+                                <th>Ngày tạo</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody v-if="list_data&&list_data.length">
                             <tr v-for="(item,index) in list_data" :key="index">
                                 <td class="text-center">{{ index + 1 }}</td>
-                                <td><p>{{ item.chuong_trinh_dao_tao ? item.chuong_trinh_dao_tao.ten : 'Trống' }}</p>
+                                <td><p>{{ item.ten_tai_lieu }}</p></td>
+                                <td>
+                                    <p>{{ item.mon_hoc_chinh ? item.mon_hoc_chinh.ten_mon : 'Trống' }}</p>
                                 </td>
-                                <td><p>{{ item.ten_mon }}</p></td>
+                                <td><p>{{ item.mon_hoc_phu ? item.mon_hoc_phu.ten_mon : 'Trống' }}</p>
+                                </td>
+                                <td><p>{{ item.mo_ta }}</p></td>
+                                <td>
+                                    <div v-html="item.noi_dung"></div>
+                                </td>
+                                <td><p>{{ item.tac_gia }}</p></td>
+                                <td><p>{{ item.tag }}</p></td>
+                                <td class="text-center"><p>{{ item.luot_xem }}</p></td>
+                                <td>
+                                    <a :href="item.link_file" target="_blank">{{item.link_file}}</a>
+<!--                                    <el-button size="mini" @click.prevent="clickFile(item.link_file)" type="primary">-->
+<!--                                        Xem/Tải xuống-->
+<!--                                    </el-button>-->
+                                </td>
+                                <td class="text-center">
+                                    <el-card shadow="always" >
+                                        <img :src="item.hinh_anh" alt="" style="width: 100px;height: 150px">
+                                    </el-card>
+                                </td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
-                                    <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
+                                    <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh
+                                        sửa
                                     </el-button>
                                     <el-button size="mini" @click.prevent="confirmDel(item)" type="danger">Xóa
                                     </el-button>
@@ -144,8 +149,23 @@
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Tác giả</label>
-                            <el-input type="text" placeholder="Nhập" clearable
-                                      v-model="dataAdd.ten_tai_lieu"></el-input>
+                            <el-select
+                                no-match-text="Không tìm thấy"
+                                no-data-text="Nhập nội dung sau đó nhấn enter"
+                                v-model="dataAdd.tac_gia"
+                                multiple
+                                filterable
+                                style="width:100%"
+                                allow-create
+                                default-first-option
+                                placeholder="Nhập">
+                                <el-option
+                                    v-for="item in []"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-col>
                         <el-col :xs="12" :sm="24" :md="12" :lg="12" :xl="12">
                             <label>Thẻ</label>
@@ -167,20 +187,46 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col v-if="file_tai_lieu" :span="6">
+                            <label>Tài liệu đã chọn</label>
+                            <div class="source d-flex">
+                                <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
+                                    <li style="width: 100%; margin: 0"
+                                        tabindex="0"
+                                        class="el-upload-list__item is-ready"
+                                    >
+                                        <el-alert
+                                            :title="file_tai_lieu.name"
+                                            type="success"
+                                            effect="dark">
+                                        </el-alert>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
                             <label>Tài liệu</label>
-                            <el-upload
-                                ref="uploadShop"
-                                :show-file-list="false"
-                                :on-change="uploadFileTaiLieu"
-                                accept=".docs,.fdf"
-                                action="/"
-                                :auto-upload="false">
-                                <div tabindex="0"
-                                    class="el-upload el-upload--picture-card">
-                                    <i class="el-icon-plus"/>
-                                </div>
-                            </el-upload>
+                            <div class="source d-flex">
+                                <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
+                                    <li>
+                                        <el-upload
+                                            ref="uploadShop"
+                                            :show-file-list="false"
+                                            :on-change="uploadFileTaiLieu"
+                                            accept=".docx,.doc,.pdf"
+                                            action="/"
+                                            :auto-upload="false">
+                                            <div tabindex="0"
+                                                 class="el-upload el-upload--picture-card">
+                                                <i class="el-icon-plus"/>
+                                            </div>
+                                        </el-upload>
+                                    </li>
+
+                                </ul>
+
+                            </div>
                         </el-col>
                         <el-col :span="12">
                             <label>Ảnh bìa</label>
@@ -203,7 +249,7 @@
                                         </li>
                                     </template>
                                     <li>
-                                        <div class="">
+                                        <div>
                                             <el-upload
                                                 ref="uploadShop"
                                                 :show-file-list="false"
@@ -297,6 +343,7 @@ export default {
             dataUpdate: {},
             dataForm: [],
             list_anh_bia: [],
+            file_tai_lieu: null
 
         }
     },
@@ -304,12 +351,17 @@ export default {
         console.log('Mounted Chương trình đào tạo...');
         this.getChuongTrinhDaoTao();
         this.getMonHoc();
-        // this.getData();
+        this.getData();
     },
     methods: {
-        uploadFileTaiLieu(file,fileList){
+        clickFile(link) {
+            window.open(link, "_blank")
+        },
+        uploadFileTaiLieu(file, fileList) {
             console.log('uploadFileTaiLieu')
             console.log(file)
+            console.log(fileList)
+            this.file_tai_lieu = file.raw;
         },
         uploadFile(file, fileList) {
             console.log('uploadFile')
@@ -344,7 +396,7 @@ export default {
                 cancelButtonText: 'Hủy',
             })
                 .then(_ => {
-                    var url = '/admin/delete-mon-hoc'
+                    var url = '/admin/delete-tai-lieu'
                     this.loading.status = true;
                     this.loading.text = 'Loading...'
                     rest_api.post(url, {id: item.id}).then(
@@ -368,9 +420,9 @@ export default {
             let params = {
                 start: this.paging.start,
                 limit: this.paging.limit,
-                ctdt: this.dataSearch.ctdt
+                key: this.dataSearch.ten_tai_lieu
             }
-            var url = '/admin/lay-danh-sach-mon-hoc'
+            var url = '/admin/lay-danh-sach-tai-lieu'
             this.loading.status = true;
             this.loading.text = 'Loading...'
             rest_api.post(url, params).then(
@@ -467,20 +519,29 @@ export default {
             })
         },
         confirmAdd() {
-            if (!this.dataAdd.ctdt || this.dataAdd.ctdt == '') {
-                this.thongBao('error', 'Chọn chương trình đào tạo.')
+            if (this.dataAdd.mon_hoc_phu == '' || this.dataAdd.ten_tai_lieu == '' || this.dataAdd.mo_ta == '' || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' || this.dataAdd.mo_ta == '') {
+                this.thongBao('error', 'Vui lòng điền đầy đủ thông tin.')
                 return
             }
-            if (!this.dataAdd.name || this.dataAdd.name == '') {
-                this.thongBao('error', 'Nhập tên môn học.')
-                return
+            var dataForm = new FormData();
+            console.log(this.file_tai_lieu)
+            dataForm.append('mon_hoc_chinh', this.dataAdd.mon_hoc_chinh);
+            dataForm.append('mon_hoc_phu', this.dataAdd.mon_hoc_phu);
+            dataForm.append('ten_tai_lieu', this.dataAdd.ten_tai_lieu);
+            dataForm.append('tac_gia', this.dataAdd.tac_gia);
+            dataForm.append('tag', this.dataAdd.tag);
+            dataForm.append('mo_ta', this.dataAdd.mo_ta);
+            dataForm.append('noi_dung', this.dataAdd.noi_dung);
+            dataForm.append('tai_lieu', this.file_tai_lieu, this.file_tai_lieu.name)
+            if (this.dataForm && this.dataForm.length) {
+                Array
+                    .from(Array(this.dataForm.length).keys())
+                    .map(x => {
+                        dataForm.append('anh_bia', this.dataForm[x], this.dataForm[x].name)
+                    })
             }
-            let params = {
-                ten: this.dataAdd.name,
-                ctdt: this.dataAdd.ctdt
-            }
-
-            rest_api.post('/admin/them-mon-hoc', params).then(
+            console.log(dataForm)
+            rest_api.post('/admin/them-tai-lieu', dataForm).then(
                 response => {
                     if (response && response.data.rc == 0) {
                         this.handleClose();
