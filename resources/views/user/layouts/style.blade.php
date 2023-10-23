@@ -15,4 +15,29 @@
     .text-right{
         text-align: right;
     }
+    .profile-widget .pro-content .title a{
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        width: -webkit-fill-available;
+        text-overflow: ellipsis;
+    }
+    .hien-1-dong{
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        width: -webkit-fill-available;
+        text-overflow: ellipsis;
+    }
+    .available-info li{
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        width: -webkit-fill-available;
+        text-overflow: ellipsis;
+    }
+    .grid-blog .entry-meta li:last-child{
+        flex: none;
+        max-width: none;
+    }
 </style>
