@@ -28,19 +28,19 @@
                         <a href="">{{$ctdt->ten}} <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
                             @foreach($ctdt->monHoc as $mon)
-                                <li><a href="doctor-dashboard.html">{{$mon->ten_mon}}</a></li>
+                                <li><a href="{{route('user.taiLieuTheoMon').'?monHocId='.$mon->id}}">{{$mon->ten_mon}}</a></li>
                             @endforeach
                         </ul>
                     </li>
                 @endforeach
                 <li class="login-link">
-                    <a href="login.html">Login / Signup</a>
+                    <a href="{{route('login')}}">Đăng nhập</a>
                 </li>
             </ul>
         </div>
         <ul class="nav header-navbar-rht right-menu">
             <li class="nav-item">
-                <a class="nav-link header-login white-bg" href="login.html"><i class="fas fa-user-circle me-2"></i>Đăng ký</a>
+                <a class="nav-link header-login white-bg" href="{{route('login')}}"><i class="fas fa-user-circle me-2"></i>Đăng nhập</a>
             </li>
         </ul>
     </nav>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\chuongTrinhDaoTao;
+use App\monHoc;
 use App\taiLieu;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,13 @@ class UserController extends Controller
         $list_new = taiLieu::with('monHocChinh')->get();
         return view('user.home',compact(['list_new','list_ctdt']));
     }
-    public function getTaiLieuTheoMon(){
+    public function getTaiLieuTheoMon(Request $request){
+        $req = $request->all();
+        $list_tai_lieu = taiLieu::where('mon_hoc_chinh',$req['monHocId'])->get();
+        $mon_hoc = monHoc::where('id',$req['monHocId'])->first();
+        $list_tai_lieu_khac = taiLieu::where('mon_hoc_chinh','!=',$req['monHocId'])->get();
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
-        return view('user.tai-lieu-theo-mon',compact('list_ctdt'));
+        return view('user.tai-lieu-theo-mon',compact(['list_ctdt','list_tai_lieu','list_tai_lieu_khac','mon_hoc']));
     }
     public function getChiTietTaiLieu(Request $request){
         $req = $request->all();

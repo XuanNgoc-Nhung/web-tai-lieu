@@ -46,9 +46,9 @@
                                     </li>
                                 </ul>
                                 <div class="row row-sm">
-                                    <div class="col-6"><a href="doctor-profile.html" class="btn view-btn">Chi tiết</a>
+                                    <div class="col-6"><a href="{{$post->link_file}}" class="btn view-btn">Xem/Tải</a>
                                     </div>
-                                    <div class="col-6"><a href="booking.html" class="btn book-btn">Xem/tải</a>
+                                    <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$post->id}}" class="btn book-btn">Xem/tải</a>
                                     </div>
                                 </div>
                             </div>

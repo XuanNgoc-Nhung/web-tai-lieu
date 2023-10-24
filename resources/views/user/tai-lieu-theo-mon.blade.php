@@ -6,7 +6,7 @@
     <section class="section section-doctor" style="padding-top: 120px">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6"><h2>Tài liệu cho môn học: Môn toán</h2></div>
+                <div class="col-6"><h2>Tài liệu cho môn học: {{$mon_hoc->ten_mon}}</h2></div>
                 <div class="col-6 text-right">
 {{--                    <p>Xem tất cả--}}
 {{--                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"--}}
@@ -18,8 +18,8 @@
 {{--                        </svg>--}}
 {{--                    </p>--}}
                 </div>
-                @for($i=0;$i<12;$i++)
-                    <div class="col-lg-2 aos" data-aos="fade-up">
+                @foreach($list_tai_lieu as $taiLieu)
+                    <div class="col-lg-2 aos mt-3" data-aos="fade-up">
                         <div class="profile-widget">
                             <div class="doc-img">
                                 <a href="doctor-profile.html">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </section>
@@ -67,7 +67,7 @@
     <section class="section section-doctor pt-2">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6"><h2>Tài liệu liên quan khác</h2></div>
+                <div class="col-6"><h2>Tài liệu khác</h2></div>
                 <div class="col-6 text-right">
                     <p>Xem tất cả
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
@@ -79,8 +79,8 @@
                         </svg>
                     </p>
                 </div>
-                @for($i=0;$i<12;$i++)
-                    <div class="col-lg-2 aos" data-aos="fade-up">
+                @foreach($list_tai_lieu_khac as $taiLieu)
+                    <div class="col-lg-2 aos mt-3" data-aos="fade-up">
                         <div class="profile-widget">
                             <div class="doc-img">
                                 <a href="doctor-profile.html">
@@ -120,7 +120,7 @@
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </section>
