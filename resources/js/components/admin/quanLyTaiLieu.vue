@@ -105,7 +105,8 @@
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Chương trình đào tạo</label>
 
-                            <eselect style="width:100%"  @change="chonChuongTrinhDaoTao"  collapseTags v-model="dataAdd.ctdt"
+                            <eselect style="width:100%" @change="chonChuongTrinhDaoTao" collapseTags
+                                     v-model="dataAdd.ctdt"
                                      :placeholder="'Chọn'" filterable
                                      :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
@@ -306,7 +307,8 @@
                     <el-row :gutter="24">
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Chương trình đào tạo</label>
-                            <eselect style="width:100%"  @change="chonChuongTrinhDaoTao"  collapseTags v-model="dataUpdate.ctdt"
+                            <eselect style="width:100%" @change="chonChuongTrinhDaoTao" collapseTags
+                                     v-model="dataUpdate.ctdt"
                                      :placeholder="'Chọn'" filterable
                                      :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
@@ -325,7 +327,7 @@
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu phụ cho môn</label>
 
-                            <eselect style="width:100%" multiple collapseTags v-model="dataAdd.mon_hoc_phu"
+                            <eselect style="width:100%" multiple collapseTags v-model="dataUpdate.mon_hoc_phu"
                                      :placeholder="'Chọn'" filterable
                                      :data="list_mon_hoc" :fields="['ten_mon','id']"/>
                             <!--                            <el-select v-model="dataAdd.mon_hoc_phu" style="width: 100%" filterable placeholder="Chọn">-->
@@ -492,7 +494,7 @@
                 </div>
                 <span slot="footer" class="dialog-footer">
     <el-button @click="show_add = false">Đóng</el-button>
-    <el-button type="primary" @click="confirmAdd()">Thêm mới</el-button>
+    <el-button type="warning" @click="confirmUpdate()">Chỉnh sửa</el-button>
   </span>
             </el-dialog>
         </el-col>
@@ -559,6 +561,7 @@ export default {
                 currentPage: 1
             },
             dataUpdate: {},
+            updateTaiLieu: false,
             dataForm: [],
             list_anh_bia: [],
             file_tai_lieu: null
@@ -593,7 +596,12 @@ export default {
             console.log('uploadFileTaiLieu')
             console.log(file)
             console.log(fileList)
-            this.file_tai_lieu = file.raw;
+            this.updateTaiLieu = false;
+            this.file_tai_lieu = null;
+            if(file){
+                this.file_tai_lieu = file.raw;
+                this.updateTaiLieu = true
+            }
         },
         uploadFile(file, fileList) {
             console.log('uploadFile')
@@ -679,16 +687,20 @@ export default {
             this.dataUpdate = JSON.parse(JSON.stringify(item))
             this.dataUpdate.tac_gia = item.tac_gia.split(',').sort()
             this.dataUpdate.tag = item.tag.split(',').sort()
+            this.dataUpdate.mon_hoc_phu = this.arrayStringToNumber(item.mon_hoc_phu.split(',').sort());
+            this.dataUpdate.mon_hoc_chinh = parseInt(item.mon_hoc_chinh.id)
             this.dataUpdate.ctdt = ''
             this.file_tai_lieu = {
                 name: item.link_file
             }
             this.list_anh_bia = [
                 {
-                    type:1,
-                    link:item.hinh_anh
+                    type: 1,
+                    link: item.hinh_anh
                 }
             ]
+            console.log('data update:')
+            console.log(this.dataUpdate)
             this.show_update = true;
         },
         getMonHoc() {
@@ -737,21 +749,36 @@ export default {
             ).catch((e) => {
             })
         },
+        arrayStringToNumber(arr) {
+            let arrOfNum = arr.map(str => {
+                return parseInt(str, 10);
+            });
+            return arrOfNum
+        },
         confirmUpdate() {
-            if (!this.dataUpdate.ctdt_id || this.dataUpdate.ctdt_id == '') {
-                this.thongBao('error', 'Chọn chương trình đào tạo.')
-                return
+            console.log('confirmUpdate')
+            var dataForm = new FormData();
+            dataForm.append('mon_hoc_chinh', this.dataUpdate.mon_hoc_chinh);
+            dataForm.append('mon_hoc_phu', this.dataUpdate.mon_hoc_phu.toString());
+            dataForm.append('ten_tai_lieu', this.dataUpdate.ten_tai_lieu);
+            dataForm.append('tac_gia', this.dataUpdate.tac_gia);
+            dataForm.append('tag', this.dataUpdate.tag);
+            dataForm.append('loai', this.dataUpdate.loai);
+            dataForm.append('mo_ta', this.dataUpdate.mo_ta);
+            dataForm.append('noi_dung', this.dataUpdate.noi_dung);
+            if (this.updateTaiLieu) {
+                dataForm.append('tai_lieu', this.file_tai_lieu, this.file_tai_lieu.name)
             }
-            if (!this.dataUpdate.ten_mon || this.dataUpdate.ten_mon == '') {
-                this.thongBao('error', 'Nhập tên môn học.')
-                return
+            if (this.dataForm && this.dataForm.length) {
+                Array
+                    .from(Array(this.dataForm.length).keys())
+                    .map(x => {
+                        dataForm.append('anh_bia', this.dataForm[x], this.dataForm[x].name)
+                    })
             }
-            let params = {
-                ctdt_id: this.dataUpdate.ctdt_id,
-                ten_mon: this.dataUpdate.ten_mon,
-                id: this.dataUpdate.id
-            }
-            rest_api.post('/admin/sua-mon-hoc', params).then(
+            console.log('Gửi đi:')
+            console.log(dataForm)
+            rest_api.post('/admin/sua-tai-lieu', dataForm).then(
                 response => {
                     if (response && response.data.rc == 0) {
                         this.handleClose();

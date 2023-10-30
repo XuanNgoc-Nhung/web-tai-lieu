@@ -52,6 +52,38 @@ class AdminController extends Controller
         }
         return json_encode($res);
     }
+    public function suaTaiLieu(Request $request){
+
+        $req = $request->all();
+        $check = taiLieu::where('id', $req['id'])->first();
+        $slug = Str::slug($req['ten_tai_lieu']);
+        if ($check) {
+            $check->ctdt_id = $req['ctdt_id'];
+            $check->ten_mon = $req['ten_mon'];
+            $check->save();
+            $res = [
+                'rc' => 0,
+                'rd' => 'Cập nhật thành công',
+                'data' => $check
+            ];
+        } else {
+            $res = [
+                'rc' => -1,
+                'rd' => 'Không tìm thấy dữ liệu',
+                'data' => null
+            ];
+        }
+        if ($request->file('tai_lieu')) {
+            $taiLieu = $request->file('tai_lieu');
+            $fileTaiLieu = '/files/taiLieu/' . $slug . '-' . uniqid() . '.' . $taiLieu->extension();
+            $taiLieu->move(public_path('files/taiLieu'), $fileTaiLieu);
+        }
+        if ($request->file('anh_bia')) {
+            $anhBia = $request->file('anh_bia');
+            $fileAnhBia = '/files/anhBia/' . $slug . '-' . uniqid() . '.' . $anhBia->extension();
+            $anhBia->move(public_path('files/anhBia'), $fileAnhBia);
+        }
+    }
 
     public function suaMonHoc(Request $request)
     {

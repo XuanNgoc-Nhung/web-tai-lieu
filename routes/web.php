@@ -33,6 +33,7 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/delete-tai-lieu', 'AdminController@xoaTaiLieu');
     Route::post('/sua-chuong-trinh-dao-tao', 'AdminController@suaChuongTrinhDaoTao');
     Route::post('/sua-mon-hoc', 'AdminController@suaMonHoc');
+    Route::post('/sua-tai-lieu', 'AdminController@suaTaiLieu');
     Route::post('/lay-danh-sach-chuong-trinh-dao-tao', 'AdminController@layDanhSachChuongTrinhDaoTao');
     Route::post('/lay-danh-sach-mon-hoc', 'AdminController@layDanhSachMonHoc');
     Route::post('/lay-danh-sach-tai-lieu', 'AdminController@layDanhSachTaiLieu');
