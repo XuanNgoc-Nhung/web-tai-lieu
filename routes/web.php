@@ -21,7 +21,7 @@ Route::get('/tim-kiem', 'UserController@getTimKiemTaiLieu')->name('user.timKiemT
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin'], function(){
+Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::get('/', 'AdminController@getHome')->name('admin.home');
     Route::get('/chuong-trinh-dao-tao', 'AdminController@getChuongTrinhDaoTao')->name('admin.chuongTrinhDaoTao');
     Route::get('/mon-hoc', 'AdminController@getMonHoc')->name('admin.monHoc');

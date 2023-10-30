@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/aos.css">
 <!-- Main CSS -->
 <link rel="stylesheet" href="assets/css/style.css">
+
 <style>
     .text-right{
         text-align: right;
@@ -39,5 +40,11 @@
     .grid-blog .entry-meta li:last-child{
         flex: none;
         max-width: none;
+    }
+    .profile-widget p.speciality{
+        min-height: 0;
+    }
+    .bar-icon span{
+        background-color: red !important;
     }
 </style>

@@ -11,27 +11,25 @@
                         <div class="blog blog-single-post">
                             <div class="blog-image">
                                 <a href="">
-                                    <img alt="" src="{{$post->hinh_anh?$post->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
+                                    <img alt="" style="width: 200px;height: 300px" src="{{$post->hinh_anh?$post->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
                                          class="img-fluid"></a>
                             </div>
                             <h3 class="blog-title">{{$post->ten_tai_lieu}}</h3>
 
                             <div class="blog-info clearfix">
-                                <a href="" class="btn btn-primary">Xem</a>
-                                <a href="" class="btn btn-primary">Tải xuống</a>
+                                <a href="{{$post->link_file}}" class="btn btn-outline-success book-btn">Xem ngay/Tải xuống</a>
                             </div>
                             <div class="blog-info clearfix">
                                 <div class="post-left">
                                     <ul>
                                         <li>
                                             <div class="post-author">
-                                                <a href="doctor-profile.html"><img
-                                                        src="assets/img/doctors/doctor-thumb-02.jpg" alt="Post Author">
-                                                    <span>{{$post->tac_gia}}</span></a>
+                                                Tác giả:
+                                                    <span>{{$post->tac_gia}}</span>
                                             </div>
                                         </li>
-                                        <li><i class="far fa-calendar"></i>{{$post->created_at}}</li>
-                                        <li><i class="far fa-comments"></i>{{$post->luot_xem}}</li>
+                                        <li>Ngày đăng: {{$post->created_at}}</li>
+                                        <li>Lượt xem: {{$post->luot_xem}}</li>
                                     </ul>
                                 </div>
                             </div>

@@ -28,7 +28,7 @@
                             <h3 class="title">
                                 <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">{{$taiLieu->ten_tai_lieu}}</a>
                             </h3>
-                            <p class="speciality">{{$taiLieu->mo_ta}}</p>
+                            <p class="speciality hien-1-dong">{{$taiLieu->mo_ta}}</p>
                             <ul class="available-info">
                                 <li><i class="fas fa-map-marker-alt"></i> {{$taiLieu->tac_gia}}</li>
                                 <li><i class="far fa-clock"></i> {{$taiLieu->created_at}}</li>

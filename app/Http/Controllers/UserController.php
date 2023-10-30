@@ -25,6 +25,8 @@ class UserController extends Controller
     public function getChiTietTaiLieu(Request $request){
         $req = $request->all();
         $post = taiLieu::where('id',$req['postId'])->first();
+        $post->luot_xem +=1;
+        $post->save();
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
         $tai_lieu_moi =  taiLieu::where('id','!=',$post->id)->orderBy('created_at','DESC')->take(10)->get();
         $tai_lieu_lien_quan = taiLieu::where('mon_hoc_chinh',$post->mon_hoc_chinh)->where('id','!=',$post->id)->get();

@@ -30,8 +30,8 @@
                                 </a>
                             </div>
                             <div class="pro-content">
-                                <h3 class="title"><a href="doctor-profile.html">{{$post->ten_tai_lieu}}</a></h3>
-                                <p class="speciality" style="min-height: 0">{{$post->mo_ta}}</p>
+                                <h3 class="title"><a href="{{route('user.chiTietTaiLieu').'?post='.$post->id}}">{{$post->ten_tai_lieu}}</a></h3>
+                                <p class="speciality hien-1-dong" style="min-height: 0">{{$post->mo_ta}}</p>
 {{--                                <div class="rating"><i class="fas fa-star filled"></i>--}}
 {{--                                    <i class="fas fa-star filled"></i>--}}
 {{--                                    <i class="fas fa-star filled"></i>--}}
@@ -48,7 +48,7 @@
                                 <div class="row row-sm">
                                     <div class="col-6"><a href="{{$post->link_file}}" class="btn view-btn">Xem/Tải</a>
                                     </div>
-                                    <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$post->id}}" class="btn book-btn">Xem/tải</a>
+                                    <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$post->id}}" class="btn book-btn">Chi tiết</a>
                                     </div>
                                 </div>
                             </div>

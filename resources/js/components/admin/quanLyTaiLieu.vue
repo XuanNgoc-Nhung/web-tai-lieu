@@ -386,7 +386,8 @@ export default {
         },
         chonChuongTrinhDaoTao() {
             this.dataSearch.mon_hoc = '';
-            this.dataAdd.mon_hoc = '';
+            this.dataAdd.mon_hoc_chinh = '';
+            this.dataAdd.mon_hoc_phu = '';
             this.getMonHoc();
         },
         confirmDel(item) {
@@ -448,7 +449,7 @@ export default {
             let params = {
                 start: 0,
                 limit: 9999,
-                ctdt: this.dataSearch.ctdt
+                ctdt: this.dataAdd.ctdt
             }
             var url = '/admin/lay-danh-sach-mon-hoc'
             this.loading.status = true;
