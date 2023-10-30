@@ -269,7 +269,7 @@ class AdminController extends Controller
         $req = $request->all();
         $list = monHoc::where('id', '>', 0);
         if (isset($req['ctdt']) && $req['ctdt'] != '') {
-            $list = monHoc::where('ctdt_id', $req['ctdt']);
+            $list = monHoc::where('ctdt_id', 'like', '%' . $req['ctdt'] . '%');
         }
         $total = $list->count();
         $data = $list->with('chuongTrinhDaoTao')->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
@@ -298,7 +298,7 @@ class AdminController extends Controller
 //            $list = monHoc::where('ctdt_id',$req['ctdt']);
 //        }
         $total = $list->count();
-        $data = $list->with('monHocChinh.chuongTrinhDaoTao')->with('monHocChinh')->with('monHocPhu')->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
+        $data = $list->with('monHocChinh.chuongTrinhDaoTao')->with('monHocChinh')->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
         if (count($data)) {
             $res = [
                 'rc' => '0',

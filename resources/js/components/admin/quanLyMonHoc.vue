@@ -43,14 +43,15 @@
                             <tbody v-if="list_data&&list_data.length">
                             <tr v-for="(item,index) in list_data" :key="index">
                                 <td class="text-center">{{ index + 1 }}</td>
-                                <td><p>{{ item.chuong_trinh_dao_tao ? item.chuong_trinh_dao_tao.ten : 'Trống' }}</p>
+                                <td><p>{{ getTenChuongTrinhDaoTao(item.ctdt_id) }}</p>
                                 </td>
                                 <td><p>{{ item.ten_mon }}</p></td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
                                     </el-button>
-                                    <el-button size="mini" @click.prevent="confirmDel(item)" type="danger">Xóa</el-button>
+                                    <el-button size="mini" @click.prevent="confirmDel(item)" type="danger">Xóa
+                                    </el-button>
                                 </td>
                             </tr>
                             </tbody>
@@ -79,19 +80,14 @@
                 :before-close="handleClose">
                 <div>
                     <el-row :gutter="24">
-                        <el-col :span="12">
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Chương trình đào tạo</label>
-                            <el-select v-model="dataAdd.ctdt" style="width: 100%" filterable placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_chuong_trinh_dao_tao"
-                                    :key="item.id"
-                                    :label="item.ten"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+                            <eselect style="width:100%" multiple collapseTags v-model="dataAdd.ctdt"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
-                        <el-col :span="12">
-                            <label>Tên chương trình đào tạo</label>
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12">
+                            <label>Tên môn học</label>
                             <el-input style="width: 100%" v-model="dataAdd.name" type="text"
                                       placeholder="Nhập"></el-input>
                         </el-col>
@@ -110,18 +106,13 @@
                 :before-close="handleClose">
                 <div>
                     <el-row :gutter="24">
-                        <el-col :span="12">
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Chương trình đào tạo</label>
-                            <el-select v-model="dataUpdate.ctdt_id" style="width: 100%" filterable placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_chuong_trinh_dao_tao"
-                                    :key="item.id"
-                                    :label="item.ten"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+                            <eselect style="width:100%" multiple collapseTags v-model="dataUpdate.ctdt_id"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Tên chương trình đào tạo</label>
                             <el-input style="width: 100%" v-model="dataUpdate.ten_mon" type="text"
                                       placeholder="Nhập"></el-input>
@@ -139,6 +130,7 @@
 <script>
 import rest_api from "../../api/rest_api";
 import Vue from 'vue';
+import ESelectVue from '../Ui/ESelect.vue';
 import ElementUI from 'element-ui';
 import PhanTrang from "../Ui/phanTrang";
 import {
@@ -150,7 +142,8 @@ Vue.use(ElementUI);
 Vue.use(Icon);
 export default {
     components: {
-        PhanTrang
+        PhanTrang,
+        'eselect': ESelectVue,
     },
     data() {
         return {
@@ -176,7 +169,10 @@ export default {
                 limit: 10,
                 currentPage: 1
             },
-            dataUpdate: {}
+            dataUpdate: {
+                ctdt_id: [],
+                name: ''
+            }
         }
     },
     mounted() {
@@ -185,8 +181,19 @@ export default {
         this.getData();
     },
     methods: {
+        getTenChuongTrinhDaoTao(arr) {
+            arr = arr.split(',').sort()
+            let str = '';
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < this.list_chuong_trinh_dao_tao.length; j++) {
+                    if (arr[i] == this.list_chuong_trinh_dao_tao[j].id) {
+                        str += this.list_chuong_trinh_dao_tao[j].ten + '; '
+                    }
+                }
+            }
+            return str;
+        },
         confirmDel(item) {
-
             this.$confirm('Xác nhận xoá thông tin ?', 'Thông báo', {
                 confirmButtonText: 'Đồng ý',
                 cancelButtonText: 'Hủy',
@@ -236,8 +243,17 @@ export default {
             ).catch((e) => {
             })
         },
+        arrayStringToNumber(arr) {
+            let arrOfNum = arr.map(str => {
+                return parseInt(str, 10);
+            });
+            return arrOfNum
+        },
         showUpdate(item) {
+            console.log('showUpdate')
             this.dataUpdate = JSON.parse(JSON.stringify(item))
+            this.dataUpdate.ctdt_id = this.arrayStringToNumber(item.ctdt_id.split(','))
+            console.log(this.dataUpdate.ctdt_id)
             this.show_update = true;
         },
         getChuongTrinhDaoTao() {
@@ -274,7 +290,7 @@ export default {
                 return
             }
             let params = {
-                ctdt_id: this.dataUpdate.ctdt_id,
+                ctdt_id: this.dataUpdate.ctdt_id.toString(),
                 ten_mon: this.dataUpdate.ten_mon,
                 id: this.dataUpdate.id
             }
@@ -303,7 +319,7 @@ export default {
             }
             let params = {
                 ten: this.dataAdd.name,
-                ctdt: this.dataAdd.ctdt
+                ctdt: this.dataAdd.ctdt.toString()
             }
 
             rest_api.post('/admin/them-mon-hoc', params).then(

@@ -8,7 +8,7 @@ class taiLieu extends Model
 {
 
     protected $fillable = [
-        'ten_tai_lieu','link_file','mo_ta','noi_dung','tag','mon_hoc_chinh','mon_hoc_phu','hinh_anh','luot_xem','tac_gia'
+        'ten_tai_lieu','link_file','mo_ta','noi_dung','tag','mon_hoc_chinh','mon_hoc_phu','hinh_anh','luot_xem','tac_gia','trang_thai','loai'
     ];
     protected $table = 'tai-lieu';
     public function monHocChinh(){

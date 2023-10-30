@@ -47,7 +47,7 @@
                                 <td>
                                     <p>{{ item.mon_hoc_chinh ? item.mon_hoc_chinh.ten_mon : 'Trống' }}</p>
                                 </td>
-                                <td><p>{{ item.mon_hoc_phu ? item.mon_hoc_phu.ten_mon : 'Trống' }}</p>
+                                <td><p v-if="item.mon_hoc_phu">{{ getTenMonHoc(item.mon_hoc_phu) }}</p>
                                 </td>
                                 <td><p>{{ item.mo_ta }}</p></td>
                                 <td>
@@ -57,13 +57,13 @@
                                 <td><p>{{ item.tag }}</p></td>
                                 <td class="text-center"><p>{{ item.luot_xem }}</p></td>
                                 <td>
-                                    <a :href="item.link_file" target="_blank">{{item.link_file}}</a>
-<!--                                    <el-button size="mini" @click.prevent="clickFile(item.link_file)" type="primary">-->
-<!--                                        Xem/Tải xuống-->
-<!--                                    </el-button>-->
+                                    <a :href="item.link_file" target="_blank">{{ item.link_file }}</a>
+                                    <!--                                    <el-button size="mini" @click.prevent="clickFile(item.link_file)" type="primary">-->
+                                    <!--                                        Xem/Tải xuống-->
+                                    <!--                                    </el-button>-->
                                 </td>
                                 <td class="text-center">
-                                    <el-card shadow="always" >
+                                    <el-card shadow="always">
                                         <img :src="item.hinh_anh" alt="" style="width: 100px;height: 150px">
                                     </el-card>
                                 </td>
@@ -104,15 +104,10 @@
                     <el-row :gutter="24">
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Chương trình đào tạo</label>
-                            <el-select @change="chonChuongTrinhDaoTao" v-model="dataAdd.ctdt" style="width: 100%"
-                                       filterable placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_chuong_trinh_dao_tao"
-                                    :key="item.id"
-                                    :label="item.ten"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+
+                            <eselect style="width:100%"  @change="chonChuongTrinhDaoTao"  collapseTags v-model="dataAdd.ctdt"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu chính cho môn</label>
@@ -128,14 +123,18 @@
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu phụ cho môn</label>
-                            <el-select v-model="dataAdd.mon_hoc_phu" style="width: 100%" filterable placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_mon_hoc"
-                                    :key="item.id"
-                                    :label="item.ten_mon"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+
+                            <eselect style="width:100%" multiple collapseTags v-model="dataAdd.mon_hoc_phu"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_mon_hoc" :fields="['ten_mon','id']"/>
+                            <!--                            <el-select v-model="dataAdd.mon_hoc_phu" style="width: 100%" filterable placeholder="Chọn">-->
+                            <!--                                <el-option-->
+                            <!--                                    v-for="item in list_mon_hoc"-->
+                            <!--                                    :key="item.id"-->
+                            <!--                                    :label="item.ten_mon"-->
+                            <!--                                    :value="item.id">-->
+                            <!--                                </el-option>-->
+                            <!--                            </el-select>-->
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Tên tài liệu</label>
@@ -148,7 +147,7 @@
                                       v-model="dataAdd.mo_ta"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Tác giả</label>
+                            <label>Tác giả </label>
                             <el-select
                                 no-match-text="Không tìm thấy"
                                 no-data-text="Nhập nội dung sau đó nhấn enter"
@@ -167,7 +166,18 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :xs="12" :sm="24" :md="12" :lg="12" :xl="12">
+                        <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
+                            <label>Loại tài liệu</label>
+                            <el-select v-model="dataAdd.loai" style="width: 100%" filterable placeholder="Chọn">
+                                <el-option
+                                    v-for="item in ds_loai_tai_lieu"
+                                    :key="item.value"
+                                    :label="item.name"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
                             <label>Thẻ</label>
                             <el-select
                                 no-match-text="Không tìm thấy"
@@ -285,11 +295,213 @@
   </span>
             </el-dialog>
         </el-col>
+        <el-col :span="24">
+            <el-dialog
+                title="Chỉnh sửa tài liệu"
+                :visible.sync="show_update"
+                custom-class="minWidth375"
+                fullscreen
+                :before-close="handleClose">
+                <div>
+                    <el-row :gutter="24">
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Chương trình đào tạo</label>
+                            <eselect style="width:100%"  @change="chonChuongTrinhDaoTao"  collapseTags v-model="dataUpdate.ctdt"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
+                        </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Áp dụng làm tài liệu chính cho môn</label>
+                            <el-select v-model="dataUpdate.mon_hoc_chinh" style="width: 100%" filterable
+                                       placeholder="Chọn">
+                                <el-option
+                                    v-for="item in list_mon_hoc"
+                                    :key="item.id"
+                                    :label="item.ten_mon"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Áp dụng làm tài liệu phụ cho môn</label>
+
+                            <eselect style="width:100%" multiple collapseTags v-model="dataAdd.mon_hoc_phu"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_mon_hoc" :fields="['ten_mon','id']"/>
+                            <!--                            <el-select v-model="dataAdd.mon_hoc_phu" style="width: 100%" filterable placeholder="Chọn">-->
+                            <!--                                <el-option-->
+                            <!--                                    v-for="item in list_mon_hoc"-->
+                            <!--                                    :key="item.id"-->
+                            <!--                                    :label="item.ten_mon"-->
+                            <!--                                    :value="item.id">-->
+                            <!--                                </el-option>-->
+                            <!--                            </el-select>-->
+                        </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Tên tài liệu</label>
+                            <el-input type="text" placeholder="Nhập" clearable
+                                      v-model="dataUpdate.ten_tai_lieu"></el-input>
+                        </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Mô tả </label>
+                            <el-input type="text" placeholder="Nhập" clearable
+                                      v-model="dataUpdate.mo_ta"></el-input>
+                        </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Tác giả</label>
+                            <el-select
+                                no-match-text="Không tìm thấy"
+                                no-data-text="Nhập nội dung sau đó nhấn enter"
+                                v-model="dataUpdate.tac_gia"
+                                multiple
+                                filterable
+                                style="width:100%"
+                                allow-create
+                                default-first-option
+                                placeholder="Nhập">
+                                <el-option
+                                    v-for="item in []"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
+                            <label>Loại tài liệu</label>
+                            <el-select v-model="dataUpdate.loai" style="width: 100%" filterable placeholder="Chọn">
+                                <el-option
+                                    v-for="item in ds_loai_tai_lieu"
+                                    :key="item.value"
+                                    :label="item.name"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
+                            <label>Thẻ</label>
+                            <el-select
+                                no-match-text="Không tìm thấy"
+                                no-data-text="Nhập nội dung sau đó nhấn enter"
+                                v-model="dataUpdate.tag"
+                                multiple
+                                filterable
+                                style="width:100%"
+                                allow-create
+                                default-first-option
+                                placeholder="Nhập">
+                                <el-option
+                                    v-for="item in []"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col v-if="file_tai_lieu" :span="6">
+                            <label>Tài liệu đã chọn</label>
+                            <div class="source d-flex">
+                                <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
+                                    <li style="width: 100%; margin: 0"
+                                        tabindex="0"
+                                        class="el-upload-list__item is-ready"
+                                    >
+                                        <el-alert
+                                            :title="file_tai_lieu.name"
+                                            type="success"
+                                            effect="dark">
+                                        </el-alert>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <label>Tài liệu</label>
+                            <div class="source d-flex">
+                                <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
+                                    <li>
+                                        <el-upload
+                                            ref="uploadShop"
+                                            :show-file-list="false"
+                                            :on-change="uploadFileTaiLieu"
+                                            accept=".docx,.doc,.pdf"
+                                            action="/"
+                                            :auto-upload="false">
+                                            <div tabindex="0"
+                                                 class="el-upload el-upload--picture-card">
+                                                <i class="el-icon-plus"/>
+                                            </div>
+                                        </el-upload>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <label>Ảnh bìa</label>
+                            <div class="source d-flex">
+                                <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
+                                    <template
+                                        v-for="(link,i) in list_anh_bia"
+                                    >
+                                        <li
+                                            tabindex="0"
+                                            class="el-upload-list__item is-ready"
+                                        >
+                                            <div class="w-100 h-100">
+                                                <img
+                                                    :src="link.link"
+                                                    alt=""
+                                                    class="el-upload-list__item-thumbnail"
+                                                >
+                                            </div>
+                                        </li>
+                                    </template>
+                                    <li>
+                                        <div>
+                                            <el-upload
+                                                ref="uploadShop"
+                                                :show-file-list="false"
+                                                :on-change="uploadFile"
+                                                accept=".jpeg,jfif,.jpg,.png"
+                                                action="/"
+                                                :auto-upload="false"
+                                            >
+                                                <div
+                                                    tabindex="0"
+                                                    class="el-upload el-upload--picture-card"
+                                                >
+                                                    <i
+                                                        class="el-icon-plus"
+                                                    /></div>
+                                            </el-upload>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </el-col>
+                        <el-col :span="24">
+                            <label>Nội dung</label>
+                            <vue-editor v-model="dataUpdate.noi_dung"/>
+                        </el-col>
+                    </el-row>
+                </div>
+                <span slot="footer" class="dialog-footer">
+    <el-button @click="show_add = false">Đóng</el-button>
+    <el-button type="primary" @click="confirmAdd()">Thêm mới</el-button>
+  </span>
+            </el-dialog>
+        </el-col>
     </el-row>
 </template>
 <script>
 import rest_api from "../../api/rest_api";
 import Vue from 'vue';
+import ESelectVue from '../Ui/ESelect.vue';
 import ElementUI from 'element-ui';
 import PhanTrang from "../Ui/phanTrang";
 import {
@@ -304,7 +516,8 @@ Vue.use(ElementUI);
 Vue.use(Icon);
 export default {
     components: {
-        PhanTrang
+        PhanTrang,
+        'eselect': ESelectVue,
     },
     data() {
         return {
@@ -321,9 +534,14 @@ export default {
                 noi_dung: '',
                 tag: '',
                 mon_hoc_chinh: '',
-                mon_hoc_phu: '',
-                tac_gia: ''
+                mon_hoc_phu: [],
+                tac_gia: '',
+                loai: 1
             },
+            ds_loai_tai_lieu: [
+                {name: 'Đọc tại chỗ', value: 1},
+                {name: 'Mang về', value: 2},
+            ],
             list_data: [],
             list_chuong_trinh_dao_tao: [],
             list_mon_hoc: [],
@@ -354,6 +572,20 @@ export default {
         this.getData();
     },
     methods: {
+        getTenMonHoc(arr) {
+            console.log('getTenMonHoc')
+            console.log(arr)
+            arr = arr.split(',').sort()
+            let str = '';
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < this.list_mon_hoc.length; j++) {
+                    if (arr[i] == this.list_mon_hoc[j].id) {
+                        str += this.list_mon_hoc[j].ten_mon + '; '
+                    }
+                }
+            }
+            return str;
+        },
         clickFile(link) {
             window.open(link, "_blank")
         },
@@ -387,7 +619,9 @@ export default {
         chonChuongTrinhDaoTao() {
             this.dataSearch.mon_hoc = '';
             this.dataAdd.mon_hoc_chinh = '';
-            this.dataAdd.mon_hoc_phu = '';
+            this.dataUpdate.mon_hoc_chinh = '';
+            this.dataAdd.mon_hoc_phu = [];
+            this.dataUpdate.mon_hoc_phu = [];
             this.getMonHoc();
         },
         confirmDel(item) {
@@ -443,6 +677,18 @@ export default {
         },
         showUpdate(item) {
             this.dataUpdate = JSON.parse(JSON.stringify(item))
+            this.dataUpdate.tac_gia = item.tac_gia.split(',').sort()
+            this.dataUpdate.tag = item.tag.split(',').sort()
+            this.dataUpdate.ctdt = ''
+            this.file_tai_lieu = {
+                name: item.link_file
+            }
+            this.list_anh_bia = [
+                {
+                    type:1,
+                    link:item.hinh_anh
+                }
+            ]
             this.show_update = true;
         },
         getMonHoc() {
@@ -527,7 +773,7 @@ export default {
             var dataForm = new FormData();
             console.log(this.file_tai_lieu)
             dataForm.append('mon_hoc_chinh', this.dataAdd.mon_hoc_chinh);
-            dataForm.append('mon_hoc_phu', this.dataAdd.mon_hoc_phu);
+            dataForm.append('mon_hoc_phu', this.dataAdd.mon_hoc_phu.toString());
             dataForm.append('ten_tai_lieu', this.dataAdd.ten_tai_lieu);
             dataForm.append('tac_gia', this.dataAdd.tac_gia);
             dataForm.append('tag', this.dataAdd.tag);
