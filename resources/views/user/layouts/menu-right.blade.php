@@ -20,13 +20,13 @@
                 @foreach($tai_lieu_moi as $tl)
                     <li>
                         <div class="post-thumb">
-                            <a href="blog-details.html">
+                            <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">
                                 <img class="img-fluid" style="width: 80px; height: 53px" src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-thumb-01.jpg'}}" alt="">
                             </a>
                         </div>
                         <div class="post-info">
                             <h4>
-                                <a href="blog-details.html">{{$tl->ten_tai_lieu}}</a>
+                                <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a>
                             </h4>
                             <p>{{$tl->created_at}}</p>
                         </div>

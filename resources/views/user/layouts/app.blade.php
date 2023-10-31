@@ -10,6 +10,7 @@
 <body>
 <!-- Main Wrapper -->
 <div class="main-wrapper multi-optn">
+    <div id="loadingScreen" class="loading">Loading&#8230;</div>
     <!-- Header -->
     @include('user.layouts.header')
     <!-- /Header -->

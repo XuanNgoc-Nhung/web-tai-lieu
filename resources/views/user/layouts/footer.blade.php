@@ -22,25 +22,25 @@
                     <!-- Footer Widget -->
                     <div class="footer-widget footer-about">
                         <div class="footer-logo">
-                            <img src="assets/img/footer-logo.png" alt="logo">
+                            <img src="https://bmtu.edu.vn/images/logo-white.png" alt="logo">
                         </div>
                         <div class="footer-about-content">
-                            <p>Rất hân hạnh đuợc phục vụ quý khách hàng</p>
+                            <p>ĐẠI HỌC Y DƯỢC BUÔN MA THUỘT</p>
                         </div>
                         <div class="footer-widget footer-contact mt-4">
                             <h2 class="footer-title footer-title-two">Địa chỉ</h2>
                             <div class="footer-contact-info">
                                 <div class="footer-address">
                                     <span><i class="fas fa-map-marker-alt"></i></span>
-                                    <p>1245 Đường Láng, Đống Đa, Hà Nội</p>
+                                    <p>298 Hà Huy Tập P. Tân An TP. Buôn Ma Thuột Tỉnh Đắk Lắk</p>
                                 </div>
                                 <p>
                                     <i class="fas fa-phone-alt"></i>
-                                   0332.882.442
+                                    0262 3 98 66 88
                                 </p>
                                 <p class="mb-0">
                                     <i class="fas fa-envelope"></i>
-                                    xuanngoc.dev@gmail.com
+                                    daihocbmt@bmtu.edu.vn
                                 </p>
                             </div>
                         </div>

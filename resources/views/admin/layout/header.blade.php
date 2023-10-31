@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="header-left">
         <a href="{{route('user.home')}}" class="logo">
-            <img src="cdn/images/logo.png" style="width: 140px" alt="Logo">
+            <img src="https://bmtu.edu.vn/images/logo.png" style="width: 140px" alt="Logo">
         </a>
         <a href="{{route('user.home')}}" class="logo logo-small">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="圖層_1"

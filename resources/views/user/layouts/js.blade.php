@@ -15,3 +15,12 @@
 
 <!-- Custom JS -->
 <script src="assets/js/script.js"></script>
+<script>
+    setTimeout(()=>{
+        console.log('xóa load')
+        let loading = document.querySelector("#loadingScreen");
+        if(loading){
+            loading.style.display = 'none'
+        }
+    },400)
+</script>

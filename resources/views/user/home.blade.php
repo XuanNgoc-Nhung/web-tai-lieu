@@ -7,7 +7,7 @@
     <section class="section section-doctor" style="padding-top:40px">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6"><h2>Tài liệu được quan tâm</h2></div>
+                <div class="col-6"><h2>Tài liệu được quan tâm </h2></div>
                 <div class="col-6 text-right">
 {{--                    <p>Xem tất cả--}}
 {{--                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"--}}
@@ -26,9 +26,11 @@
                                 <a href="{{route('user.chiTietTaiLieu').'?postId='.$post->id}}">
                                     <img class="img-fluid" alt="User Image" style="width: 223px; height: 149px" src="{{$post->hinh_anh?$post->hinh_anh:'assets/img/doctors/doctor-01.jpg'}}">
                                 </a>
-                                <div class="hetHan text-center">
-                                    <h3 style="color: red; margin-top: 30%">Hết hạn</h3>
-                                </div>
+                                @if($post->trang_thai!=1)
+                                    <div class="hetHan text-center">
+                                        <h3 style="color: red; margin-top: 30%">Hết hạn</h3>
+                                    </div>
+                                @endif
 {{--                                <a href="javascript:void(0)" class="fav-btn"> <i class="far fa-bookmark"></i>--}}
 {{--                                </a>--}}
                             </div>

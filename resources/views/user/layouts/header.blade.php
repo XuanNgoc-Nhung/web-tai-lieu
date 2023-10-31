@@ -27,10 +27,14 @@
                     <li class="has-submenu">
                         <a href="">{{$ctdt->ten}} <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
-                            @foreach($ctdt->monHoc as $mon)
-                                <li>
-                                    <a href="{{route('user.taiLieuTheoMon').'?monHocId='.$mon->id}}">{{$mon->ten_mon}}</a>
-                                </li>
+                            @foreach($data['ds_mon_hoc'] as $mon)
+                                    @php
+                                        $string = $mon->ctdt_id;
+                                        $array = stringToArray($string);
+                                        if(in_array($ctdt->id, $array)){
+                                            echo ('<li><a href="'.route('user.taiLieuTheoMon').'?monHocId='.$mon->id.'">'.$mon->ten_mon.'</a></li>');
+                                        }
+                                        @endphp
                             @endforeach
                         </ul>
                     </li>
@@ -83,3 +87,8 @@
         </form>
     </nav>
 </header>
+@php
+    function stringToArray($string, $delimiter = ',') {
+        return explode($delimiter, $string);
+    }
+@endphp

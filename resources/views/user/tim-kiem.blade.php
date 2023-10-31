@@ -22,6 +22,11 @@
                                                 <img class="img-fluid"
                                                      src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
                                                      alt="Hình ảnh tài liệu"></a>
+                                            @if($tl->trang_thai!=1)
+                                                <div class="hetHan text-center">
+                                                    <h3 style="color: red; margin-top: 30%">Hết hạn</h3>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="blog-content">
                                             <ul class="entry-meta meta-item">
