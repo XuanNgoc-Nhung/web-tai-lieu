@@ -37,6 +37,7 @@
                                 <th>File tài liệu</th>
                                 <th>Ảnh bìa</th>
                                 <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
@@ -68,6 +69,7 @@
                                     </el-card>
                                 </td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
+                                <td class="text-center"><p>{{ item.trang_thai==1?'Đang hoạt động':'Ngừng hoạt động' }}</p></td>
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh
                                         sửa
@@ -486,6 +488,18 @@
 
                             </div>
                         </el-col>
+                        <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
+                            <label>Trạng thái</label>
+                            <el-select v-model="dataUpdate.trang_thai" style="width: 100%" filterable
+                                       placeholder="Chọn">
+                                <el-option
+                                    v-for="item in list_trang_thai"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-col>
                         <el-col :span="24">
                             <label>Nội dung</label>
                             <vue-editor v-model="dataUpdate.noi_dung"/>
@@ -493,7 +507,7 @@
                     </el-row>
                 </div>
                 <span slot="footer" class="dialog-footer">
-    <el-button @click="show_add = false">Đóng</el-button>
+    <el-button @click="show_update = false">Đóng</el-button>
     <el-button type="warning" @click="confirmUpdate()">Chỉnh sửa</el-button>
   </span>
             </el-dialog>
@@ -540,6 +554,10 @@ export default {
                 tac_gia: '',
                 loai: 1
             },
+            list_trang_thai: [
+                {id: 1, name: 'Đang hoạt động'},
+                {id: 0, name: 'Ngừng hoạt động'},
+            ],
             ds_loai_tai_lieu: [
                 {name: 'Đọc tại chỗ', value: 1},
                 {name: 'Mang về', value: 2},
@@ -598,7 +616,7 @@ export default {
             console.log(fileList)
             this.updateTaiLieu = false;
             this.file_tai_lieu = null;
-            if(file){
+            if (file) {
                 this.file_tai_lieu = file.raw;
                 this.updateTaiLieu = true
             }
@@ -633,7 +651,6 @@ export default {
             this.getMonHoc();
         },
         confirmDel(item) {
-
             this.$confirm('Xác nhận xoá thông tin ?', 'Thông báo', {
                 confirmButtonText: 'Đồng ý',
                 cancelButtonText: 'Hủy',
@@ -758,6 +775,7 @@ export default {
         confirmUpdate() {
             console.log('confirmUpdate')
             var dataForm = new FormData();
+            dataForm.append('id', this.dataUpdate.id);
             dataForm.append('mon_hoc_chinh', this.dataUpdate.mon_hoc_chinh);
             dataForm.append('mon_hoc_phu', this.dataUpdate.mon_hoc_phu.toString());
             dataForm.append('ten_tai_lieu', this.dataUpdate.ten_tai_lieu);
@@ -766,6 +784,7 @@ export default {
             dataForm.append('loai', this.dataUpdate.loai);
             dataForm.append('mo_ta', this.dataUpdate.mo_ta);
             dataForm.append('noi_dung', this.dataUpdate.noi_dung);
+            dataForm.append('trang_thai', this.dataUpdate.trang_thai);
             if (this.updateTaiLieu) {
                 dataForm.append('tai_lieu', this.file_tai_lieu, this.file_tai_lieu.name)
             }

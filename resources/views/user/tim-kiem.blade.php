@@ -12,32 +12,39 @@
                             <h2>Kết quả tìm kiếm cho từ khóa <span
                                     style="color: blue">{{ app('request')->input('key') }}</span></h2>
                         </div>
-                        @foreach($list_tai_lieu as $tl)
-                            <div class="col-md-6 col-sm-12">
-                                <div class="blog grid-blog">
-                                    <div class="blog-image">
-                                        <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">
-                                            <img class="img-fluid"
-                                                 src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
-                                                 alt="Hình ảnh tài liệu"></a>
+                        @if(isset($list_tai_lieu)&&count($list_tai_lieu))
+
+                            @foreach($list_tai_lieu as $tl)
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="blog grid-blog">
+                                        <div class="blog-image">
+                                            <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">
+                                                <img class="img-fluid"
+                                                     src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
+                                                     alt="Hình ảnh tài liệu"></a>
+                                        </div>
+                                        <div class="blog-content">
+                                            <ul class="entry-meta meta-item">
+                                                <li>
+                                                    <div class="post-author">
+                                                        <div class="hien-1-dong">
+                                                            <span>{{$tl->tac_gia}}</span></div>
+                                                    </div>
+                                                </li>
+                                                <li>{{$tl->created_at}}</li>
+                                            </ul>
+                                            <h3 class="blog-title"><a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a></h3>
+                                            <p class="mb-0">{{$tl->mo_ta}}</p>
+                                        </div>
                                     </div>
-                                    <div class="blog-content">
-                                        <ul class="entry-meta meta-item">
-                                            <li>
-                                                <div class="post-author">
-                                                    <div class="hien-1-dong">
-                                                        <span>{{$tl->tac_gia}}</span></div>
-                                                </div>
-                                            </li>
-                                            <li>{{$tl->created_at}}</li>
-                                        </ul>
-                                        <h3 class="blog-title"><a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a></h3>
-                                        <p class="mb-0">{{$tl->mo_ta}}</p>
-                                    </div>
+                                    <!-- /Blog Post -->
                                 </div>
-                                <!-- /Blog Post -->
+                            @endforeach
+                        @else
+                            <div class="text-center">
+                                <h2 style="color: red">Không có kết quả phù hợp</h2>
                             </div>
-                        @endforeach
+                        @endif
 
                     </div>
                 </div>

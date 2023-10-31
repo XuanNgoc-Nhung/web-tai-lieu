@@ -18,38 +18,46 @@
 {{--                        </svg>--}}
 {{--                    </p>--}}
                 </div>
-                @foreach($list_tai_lieu as $taiLieu)
-                    <div class="col-lg-2 aos mt-3" data-aos="fade-up">
-                        <div class="profile-widget">
-                            <div class="doc-img">
-                                <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">
-                                    <img class="img-fluid" style="width: 220px; height: 147px" alt="User Image" src="{{$taiLieu->hinh_anh?$taiLieu->hinh_anh:'assets/img/doctors/doctor-01.jpg'}}">
-                                </a>
-                                <a href="javascript:void(0)" class="fav-btn"> <i class="far fa-bookmark"></i>
-                                </a>
-                            </div>
-                            <div class="pro-content">
-                                <h3 class="title">
-                                    <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">{{$taiLieu->ten_tai_lieu}}</a>
-                                </h3>
-                                <p class="speciality hien-1-dong">{{$taiLieu->mo_ta}}</p>
-                                <ul class="available-info">
-                                    <li class="hien-1-dong">Tác giả: </i>{{$taiLieu->tac_gia}}</li>
-                                    <li>Ngày tạo: {{$taiLieu->created_at}}</li>
-                                    <li>
-                                        Lượt xem: {{$taiLieu->luot_xem}}
-                                    </li>
-                                </ul>
-                                <div class="row row-sm">
-                                    <div class="col-6"><a href="{{$taiLieu->link_file}}" class="btn view-btn">Xem/Tải</a>
-                                    </div>
-                                    <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}" class="btn book-btn">Chi tiết</a>
+                @if(isset($list_tai_lieu)&&count($list_tai_lieu))
+
+                    @foreach($list_tai_lieu as $taiLieu)
+                        <div class="col-lg-2 aos mt-3" data-aos="fade-up">
+                            <div class="profile-widget">
+                                <div class="doc-img">
+                                    <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">
+                                        <img class="img-fluid" style="width: 220px; height: 147px" alt="User Image" src="{{$taiLieu->hinh_anh?$taiLieu->hinh_anh:'assets/img/doctors/doctor-01.jpg'}}">
+                                    </a>
+                                    <a href="javascript:void(0)" class="fav-btn"> <i class="far fa-bookmark"></i>
+                                    </a>
+                                </div>
+                                <div class="pro-content">
+                                    <h3 class="title">
+                                        <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">{{$taiLieu->ten_tai_lieu}}</a>
+                                    </h3>
+                                    <p class="speciality hien-1-dong">{{$taiLieu->mo_ta}}</p>
+                                    <ul class="available-info">
+{{--                                        <li class="hien-1-dong">Tác giả: </i>{{$taiLieu->tac_gia}}</li>--}}
+                                        <li>Loại: {{$taiLieu->loai==1?'Đọc tại chỗ':'Mang về'}}</li>
+                                        <li>Ngày tạo: {{$taiLieu->created_at}}</li>
+                                        <li>
+                                            Lượt xem: {{$taiLieu->luot_xem}}
+                                        </li>
+                                    </ul>
+                                    <div class="row row-sm">
+                                        <div class="col-6"><a href="{{$taiLieu->link_file}}" class="btn view-btn">Xem/Tải</a>
+                                        </div>
+                                        <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}" class="btn book-btn">Chi tiết</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="text-center">
+                        <h3>Môn học chưa có tài liệu</h3>
                     </div>
-                @endforeach
+                @endif
             </div>
         </div>
     </section>
