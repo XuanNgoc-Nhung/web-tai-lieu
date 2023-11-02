@@ -56,6 +56,12 @@
     .bar-icon span {
         background-color: red !important;
     }
+    .book-btn{
+        background-color: rgb(43, 108, 203);
+    }
+    .blog-info a{
+        color: white;
+    }
     a{
         position: relative;
     }
