@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="assets/css/style.css">
 
 <style>
+    *{
+        font-family:'Source Sans Pro', sans-serif
+    }
     .text-right {
         text-align: right;
     }
@@ -53,16 +56,21 @@
     .bar-icon span {
         background-color: red !important;
     }
-
+    a{
+        position: relative;
+    }
     .hetHan {
         position: absolute;
         width: 100%;
-        height: 100%;
-        z-index: 9999999999;
-        top: 0;
-        background: #fffd00;
-        opacity: 0.5;
+        height: 149px;
+        top: -65px;
+        border-radius: 4px;
+        background: black;
+        opacity: 0.6;
         cursor: not-allowed;
+    }
+    .hetHan:hover{
+        scale: 1.1;
     }
 
     /* Absolute Center Spinner */

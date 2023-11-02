@@ -18,17 +18,17 @@
         <div class="card-body">
             <ul class="latest-posts">
                 @foreach($tai_lieu_moi as $tl)
-                    <li>
-                        <div class="post-thumb">
+                    <li style="display: inline">
+                        <div class="post-thumb" style="margin-top: 10px">
                             <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">
-                                <img class="img-fluid" style="width: 80px; height: 53px" src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-thumb-01.jpg'}}" alt="">
+                                <img class="img-fluid" style="width: 70px; height: 90px" src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-thumb-01.jpg'}}" alt="">
                             </a>
                         </div>
-                        <div class="post-info">
+                        <div class="post-info" style="margin-left:inherit ; display: none">
                             <h4>
                                 <a href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a>
                             </h4>
-                            <p>{{$tl->created_at}}</p>
+{{--                            <p>{{$tl->created_at}}</p>--}}
                         </div>
                     </li>
                 @endforeach

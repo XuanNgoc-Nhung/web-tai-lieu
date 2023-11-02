@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/them-mon-hoc', 'AdminController@themMonHoc');
     Route::post('/them-tai-lieu', 'AdminController@themTaiLieu');
     Route::post('/delete-mon-hoc', 'AdminController@xoaMonHoc');
+    Route::post('/delete-ctdt', 'AdminController@xoaChuongTrinhDaoTao');
     Route::post('/delete-tai-lieu', 'AdminController@xoaTaiLieu');
     Route::post('/sua-chuong-trinh-dao-tao', 'AdminController@suaChuongTrinhDaoTao');
     Route::post('/sua-mon-hoc', 'AdminController@suaMonHoc');
@@ -37,4 +38,8 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/lay-danh-sach-chuong-trinh-dao-tao', 'AdminController@layDanhSachChuongTrinhDaoTao');
     Route::post('/lay-danh-sach-mon-hoc', 'AdminController@layDanhSachMonHoc');
     Route::post('/lay-danh-sach-tai-lieu', 'AdminController@layDanhSachTaiLieu');
+});
+
+Route::get('/404', function () {
+    return view('user.errors.404');
 });

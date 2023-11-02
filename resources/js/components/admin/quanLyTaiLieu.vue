@@ -812,7 +812,7 @@ export default {
             })
         },
         confirmAdd() {
-            if (this.dataAdd.mon_hoc_phu == '' || this.dataAdd.ten_tai_lieu == '' || this.dataAdd.mo_ta == '' || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' || this.dataAdd.mo_ta == '') {
+            if (this.dataAdd.mon_hoc_phu == '' || this.dataAdd.mo_ta == '' || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' || this.dataAdd.mo_ta == '') {
                 this.thongBao('error', 'Vui lòng điền đầy đủ thông tin.')
                 return
             }
@@ -825,7 +825,9 @@ export default {
             dataForm.append('tag', this.dataAdd.tag);
             dataForm.append('mo_ta', this.dataAdd.mo_ta);
             dataForm.append('noi_dung', this.dataAdd.noi_dung);
-            dataForm.append('tai_lieu', this.file_tai_lieu, this.file_tai_lieu.name)
+            if(this.file_tai_lieu){
+                dataForm.append('tai_lieu', this.file_tai_lieu, this.file_tai_lieu.name)
+            }
             if (this.dataForm && this.dataForm.length) {
                 Array
                     .from(Array(this.dataForm.length).keys())

@@ -197,7 +197,7 @@ class AdminController extends Controller
             'tag' => $req['tag'],
             'mo_ta' => $req['mo_ta'],
             'noi_dung' => $req['noi_dung'],
-            'link_file' => $fileTaiLieu,
+            'link_file' => $fileTaiLieu?$fileTaiLieu:'/404',
             'hinh_anh' => $fileAnhBia,
         ]);
         $res = [
@@ -212,11 +212,11 @@ class AdminController extends Controller
     {
         $req = $request->all();
         $check = chuongTrinhDaoTao::where('id', $req['id'])->first();
-        $tai_lieu = chuongTrinhDaoTao::all();
-        if (count($tai_lieu)) {
+        $check_mon_hoc = monHoc::where('ctdt_id', 'like', '%' . $req['id'] . '%')->first();
+        if (isset($check_mon_hoc)) {
             $res = [
                 'rc' => '-1',
-                'rd' => 'Môn học đang có tài liệu, không thể xóa.'
+                'rd' => 'Chương trình đào tạo đang có môn học. Không thể xóa. ['.$check_mon_hoc['ten_mon'].']'
             ];
         } else {
             if ($check) {

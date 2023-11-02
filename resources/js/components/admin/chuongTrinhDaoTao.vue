@@ -31,7 +31,7 @@
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
                                     </el-button>
-                                    <el-button size="mini" type="danger">Xóa</el-button>
+                                    <el-button size="mini"  @click.prevent="xoaChuongTrinhDaoTao(item)" type="danger">Xóa</el-button>
                                 </td>
                             </tr>
                             </tbody>
@@ -136,6 +136,32 @@ export default {
         this.getData();
     },
     methods: {
+        xoaChuongTrinhDaoTao(item){
+
+            this.$confirm('Xác nhận xoá thông tin ?', 'Thông báo', {
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+            })
+                .then(_ => {
+                    var url = '/admin/delete-ctdt'
+                    this.loading.status = true;
+                    this.loading.text = 'Loading...'
+                    rest_api.post(url, {id: item.id}).then(
+                        response => {
+                            if (response.data.rc == 0) {
+                                this.getData()
+                                this.thongBao('success', 'Xoá dữ liệu thành công')
+                            } else {
+                                this.thongBao('error', response.data.rd)
+                            }
+                            this.loading.status = false;
+                        }
+                    ).catch((e) => {
+                    })
+                })
+                .catch(_ => {
+                });
+        },
         showUpdate(item) {
             this.dataUpdate = JSON.parse(JSON.stringify(item))
             this.show_update = true;
