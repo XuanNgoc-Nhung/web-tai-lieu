@@ -17,7 +17,7 @@ class UserController extends Controller
         return view('user.home',compact(['list_new','list_ctdt','thong_bao']));
     }
     public function getThongBao(){
-        $list_thong_bao = thongBao::all();
+        $list_thong_bao = thongBao::orderBy('created_at','DESC')->get();
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
         $tai_lieu_moi =  taiLieu::orderBy('created_at','DESC')->take(10)->get();
         $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
@@ -43,10 +43,10 @@ class UserController extends Controller
     }
     public function chiTietThongBao(Request $request){
         $req = $request->all();
-        $thong_bao = thongBao::where('id',$req['id'])->first();
+        $thong_bao = thongBao::where('id',$req['id'])->orderBy('created_at','DESC')->first();
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
         $tai_lieu_moi =  taiLieu::orderBy('created_at','DESC')->take(10)->get();
-        $thong_bao_khac = thongBao::where('id','!=',$req['id'])->get();
+        $thong_bao_khac = thongBao::where('id','!=',$req['id'])->orderBy('created_at','DESC')->get();
         $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
         return view('user.chi-tiet-thong-bao',compact(['thong_bao','list_ctdt','tai_lieu_moi','tai_lieu_lien_quan','thong_bao_khac']));
     }

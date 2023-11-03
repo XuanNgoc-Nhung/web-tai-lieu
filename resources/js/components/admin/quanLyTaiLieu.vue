@@ -29,8 +29,8 @@
                                 <th>Tên tài liệu</th>
                                 <th>Môn học chính</th>
                                 <th>Môn học phụ</th>
-                                <th>Mô tả</th>
-                                <th>Nội dung</th>
+<!--                                <th>Mô tả</th>-->
+<!--                                <th>Nội dung</th>-->
                                 <th>Tác giả</th>
                                 <th>Thẻ</th>
                                 <th>Lượt xem</th>
@@ -50,10 +50,10 @@
                                 </td>
                                 <td><p v-if="item.mon_hoc_phu">{{ getTenMonHoc(item.mon_hoc_phu) }}</p>
                                 </td>
-                                <td><p>{{ item.mo_ta }}</p></td>
-                                <td>
-                                    <div v-html="item.noi_dung"></div>
-                                </td>
+<!--                                <td><p>{{ item.mo_ta }}</p></td>-->
+<!--                                <td>-->
+<!--                                    <div v-html="item.noi_dung"></div>-->
+<!--                                </td>-->
                                 <td><p>{{ item.tac_gia }}</p></td>
                                 <td><p>{{ item.tag }}</p></td>
                                 <td class="text-center"><p>{{ item.luot_xem }}</p></td>
@@ -812,7 +812,7 @@ export default {
             })
         },
         confirmAdd() {
-            if (this.dataAdd.mon_hoc_phu == '' || this.dataAdd.mo_ta == '' || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' || this.dataAdd.mo_ta == '') {
+            if (this.dataAdd.mon_hoc_phu == ''  || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' ) {
                 this.thongBao('error', 'Vui lòng điền đầy đủ thông tin.')
                 return
             }

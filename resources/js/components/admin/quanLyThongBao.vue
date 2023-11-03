@@ -28,7 +28,7 @@
                                 <th>STT</th>
                                 <th>Tiêu đề thông báo</th>
                                 <th>Mô tả</th>
-                                <th>Nội dung</th>
+<!--                                <th>Nội dung</th>-->
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -38,9 +38,9 @@
                                 <td class="text-center">{{ index + 1 }}</td>
                                 <td><p>{{ item.tieu_de }}</p></td>
                                 <td><p>{{ item.mo_ta }}</p></td>
-                                <td>
-                                    <div v-html="item.noi_dung"></div>
-                                </td>
+<!--                                <td>-->
+<!--                                    <div v-html="item.noi_dung"></div>-->
+<!--                                </td>-->
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh

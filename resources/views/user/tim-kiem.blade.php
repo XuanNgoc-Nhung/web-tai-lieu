@@ -42,7 +42,7 @@
                                             <h3 class="blog-title"><a
                                                     href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a>
                                             </h3>
-                                            <p class="mb-0">{{$tl->mo_ta}}</p>
+{{--                                            <p class="mb-0">{{$tl->mo_ta}}</p>--}}
                                         </div>
                                     </div>
                                     <!-- /Blog Post -->

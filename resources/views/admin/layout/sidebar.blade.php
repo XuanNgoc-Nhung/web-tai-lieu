@@ -4,11 +4,11 @@
             <ul>
                 <li class="menu-title"><span>Hệ thống</span></li>
 
+{{--                <li class=" {{ Request::routeIs('admin.home')? 'active' : '' }}">--}}
+{{--                    <a href="{{route('admin.home')}}"><i class="feather-grid"></i> <span>Tổng quan</span></a>--}}
+{{--                </li>--}}
                 <li class=" {{ Request::routeIs('admin.home')? 'active' : '' }}">
-                    <a href="{{route('admin.home')}}"><i class="feather-grid"></i> <span>Tổng quan</span></a>
-                </li>
-                <li class=" {{ Request::routeIs('admin.chuongTrinhDaoTao')? 'active' : '' }}">
-                    <a href="{{route('admin.chuongTrinhDaoTao')}}"><i class="feather-sliders"></i> <span>Chương trình đào tạo</span></a>
+                    <a href="{{route('admin.home')}}"><i class="feather-sliders"></i> <span>Chương trình đào tạo</span></a>
                 </li>
                 <li class=" {{ Request::routeIs('admin.monHoc')? 'active' : '' }}">
                     <a href="{{route('admin.monHoc')}}"><i class="feather-sliders"></i> <span>Môn học</span></a>

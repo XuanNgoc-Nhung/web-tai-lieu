@@ -14,9 +14,9 @@
                         <div class="card-body" style="text-align: left">
                             <div>{!! $thong_bao->noi_dung !!}</div>
                         </div>
-                    </div>
-                    <div class="text-center" style="padding: 20px">
-                        <a href="{{route('user.thongBao')}}" class="btn btn-primary">Quay lại</a>
+                        <div class="text-center">
+                            <a href="{{route('user.thongBao')}}" class="btn btn-primary">Quay lại</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Blog Sidebar -->

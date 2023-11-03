@@ -12,9 +12,11 @@
                             <div class="card">
                                 <h5 class="card-header">[Thông báo] - {{$thong_bao->created_at}}</h5>
                                 <div class="card-body">
-                                    <h3 class="card-title"><b>{{$thong_bao->tieu_de}}</b></h3>
+                                    <a href="{{route('user.chiTietThongBao').'?id='.$thong_bao->id}}">
+                                        <h3 class="card-title"><b>{{$thong_bao->tieu_de}}</b></h3>
+                                    </a>
                                     <p class="card-text">{{$thong_bao->mo_ta}}</p>
-                                    <a href="{{route('user.chiTietThongBao').'?id='.$thong_bao->id}}" class="btn btn-primary">Chi tiết</a>
+{{--                                    <a href="{{route('user.chiTietThongBao').'?id='.$thong_bao->id}}" class="btn btn-primary">Chi tiết</a>--}}
                                 </div>
                             </div>
                         @endforeach

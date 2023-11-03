@@ -85,6 +85,10 @@
         -moz-border-radius-topright: 100px;
         border-top-right-radius: 1000px;
     }
+    .main-nav li > ul{
+        height: 60vh;
+        overflow: scroll;
+    }
 
     .hetHan {
         position: absolute;

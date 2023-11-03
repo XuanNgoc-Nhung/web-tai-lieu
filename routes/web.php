@@ -24,8 +24,8 @@ Route::get('/chi-tiet-thong-bao', 'UserController@chiTietThongBao')->name('user.
 Auth::routes();
 
 Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
-    Route::get('/', 'AdminController@getHome')->name('admin.home');
-    Route::get('/chuong-trinh-dao-tao', 'AdminController@getChuongTrinhDaoTao')->name('admin.chuongTrinhDaoTao');
+//    Route::get('/', 'AdminController@getHome')->name('admin.home');
+    Route::get('/chuong-trinh-dao-tao', 'AdminController@getChuongTrinhDaoTao')->name('admin.home');
     Route::get('/mon-hoc', 'AdminController@getMonHoc')->name('admin.monHoc');
     Route::get('/tai-lieu', 'AdminController@getTaiLieu')->name('admin.taiLieu');
     Route::get('/thong-bao', 'AdminController@getThongBao')->name('admin.thongBao');
