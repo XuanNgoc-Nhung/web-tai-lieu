@@ -12,8 +12,9 @@ class UserController extends Controller
 {
     public function getHome(){
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
+        $thong_bao = thongBao::all();
         $list_new = taiLieu::with('monHocChinh')->get();
-        return view('user.home',compact(['list_new','list_ctdt']));
+        return view('user.home',compact(['list_new','list_ctdt','thong_bao']));
     }
     public function getThongBao(){
         $list_thong_bao = thongBao::all();

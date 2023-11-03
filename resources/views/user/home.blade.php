@@ -7,6 +7,14 @@
     <section class="section section-doctor" style="padding-top:40px">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-12"><h2>Thông báo </h2></div>
+                <ul class="list-group">
+                    @foreach($thong_bao as $tb)
+                        <li class="list-group-item"><a href="{{route('user.chiTietThongBao').'?id='.$tb->id}}">&bull; [{{$tb->created_at}}] {{$tb->tieu_de}}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="row" style="padding-top: 40px">
                 <div class="col-12"><h2>Tài liệu được quan tâm </h2></div>
                 @foreach($list_new as $post)
                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 aos pt-3" data-aos="fade-up">
