@@ -65,6 +65,27 @@
     a{
         position: relative;
     }
+    .titleCustom{
+        border-bottom: 2px double red;
+
+    }
+    .titleCustom h2{
+        display: inline;
+        width: 150px;
+        color: white;
+        padding-left: 10px;
+        height: 100px;
+        transform: skew(20deg);
+        background: red;
+        margin-left: -12px;
+        padding-right: 20px;
+        -webkit-border-radius: 20px;
+        -webkit-border-top-right-radius: 100px;
+        -moz-border-radius: 200px;
+        -moz-border-radius-topright: 100px;
+        border-top-right-radius: 1000px;
+    }
+
     .hetHan {
         position: absolute;
         width: 100%;

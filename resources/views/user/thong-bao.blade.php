@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    @include('user.layouts.tai-lieu-lien-quan')
+{{--    @include('user.layouts.tai-lieu-lien-quan')--}}
 @endsection
 @section("js_location")
 @endsection

@@ -46,8 +46,9 @@ class UserController extends Controller
         $thong_bao = thongBao::where('id',$req['id'])->first();
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
         $tai_lieu_moi =  taiLieu::orderBy('created_at','DESC')->take(10)->get();
+        $thong_bao_khac = thongBao::where('id','!=',$req['id'])->get();
         $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
-        return view('user.chi-tiet-thong-bao',compact(['thong_bao','list_ctdt','tai_lieu_moi','tai_lieu_lien_quan']));
+        return view('user.chi-tiet-thong-bao',compact(['thong_bao','list_ctdt','tai_lieu_moi','tai_lieu_lien_quan','thong_bao_khac']));
     }
     public function getTimKiemTaiLieu(Request $request){
         $req = $request->all();
