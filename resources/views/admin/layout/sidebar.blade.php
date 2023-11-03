@@ -16,6 +16,9 @@
                 <li class=" {{ Request::routeIs('admin.taiLieu')? 'active' : '' }}">
                     <a href="{{route('admin.taiLieu')}}"><i class="feather-sliders"></i> <span>Tài liệu</span></a>
                 </li>
+                <li class=" {{ Request::routeIs('admin.thongBao')? 'active' : '' }}">
+                    <a href="{{route('admin.thongBao')}}"><i class="feather-sliders"></i> <span>Thông báo</span></a>
+                </li>
                 <li>
                     <a href="/logout" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i

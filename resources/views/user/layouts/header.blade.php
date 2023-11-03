@@ -28,17 +28,20 @@
                         <a href="">{{$ctdt->ten}} <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
                             @foreach($data['ds_mon_hoc'] as $mon)
-                                    @php
-                                        $string = $mon->ctdt_id;
-                                        $array = stringToArray($string);
-                                        if(in_array($ctdt->id, $array)){
-                                            echo ('<li><a href="'.route('user.taiLieuTheoMon').'?monHocId='.$mon->id.'">'.$mon->ten_mon.'</a></li>');
-                                        }
-                                        @endphp
+                                @php
+                                    $string = $mon->ctdt_id;
+                                    $array = stringToArray($string);
+                                    if(in_array($ctdt->id, $array)){
+                                        echo ('<li><a href="'.route('user.taiLieuTheoMon').'?monHocId='.$mon->id.'">'.$mon->ten_mon.'</a></li>');
+                                    }
+                                @endphp
                             @endforeach
                         </ul>
                     </li>
                 @endforeach
+                <li class="nav-item">
+                    <a href="{{route('user.thongBao')}}">Thông báo</a>
+                </li>
                 @if (Auth::guest())
                     <li class="login-link">
                         <a href="{{route('login')}}">Đăng nhập</a>
@@ -60,7 +63,6 @@
             </ul>
         </div>
         <ul class="nav header-navbar-rht right-menu">
-
             @if (Auth::guest())
                 <li class="nav-item">
                     <a class="nav-link header-login white-bg" href="{{route('login')}}"><i

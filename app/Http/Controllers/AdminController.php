@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\chuongTrinhDaoTao;
 use App\monHoc;
 use App\taiLieu;
+use App\thongBao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -29,6 +30,11 @@ class AdminController extends Controller
     public function getTaiLieu()
     {
         return view('admin.tai-lieu');
+    }
+
+    public function getThongBao()
+    {
+        return view('admin.thong-bao');
     }
 
     public function suaChuongTrinhDaoTao(Request $request)
@@ -120,6 +126,31 @@ class AdminController extends Controller
         return json_encode($res);
     }
 
+
+    public function suaThongBao(Request $request)
+    {
+        $req = $request->all();
+        $check = thongBao::where('id', $req['id'])->first();
+        if ($check) {
+            $check->tieu_de = $req['tieu_de'];
+            $check->mo_ta = $req['mo_ta'];
+            $check->noi_dung = $req['noi_dung'];
+            $check->save();
+            $res = [
+                'rc' => 0,
+                'rd' => 'Cập nhật thành công',
+                'data' => $check
+            ];
+        } else {
+            $res = [
+                'rc' => -1,
+                'rd' => 'Không tìm thấy dữ liệu',
+                'data' => null
+            ];
+        }
+        return json_encode($res);
+    }
+
     public function themChuongTrinhDaoTao(Request $request)
     {
         $req = $request->all();
@@ -168,6 +199,31 @@ class AdminController extends Controller
         }
         return json_encode($res);
     }
+    public function themThongBao(Request $request)
+    {
+        $req = $request->all();
+        $check = thongBao::where('tieu_de', $req['tieu_de'])->first();
+        if ($check) {
+            $res = [
+                'rc' => -1,
+                'rd' => 'Thông báo đã tồn tại.',
+                'data' => null
+            ];
+
+        } else {
+            $dataCreat = thongBao::create([
+                'tieu_de' => $req['tieu_de'],
+                'noi_dung' => $req['noi_dung'],
+                'mo_ta' => $req['mo_ta'],
+            ]);
+            $res = [
+                'rc' => 0,
+                'rd' => 'Thêm dữ liệu thành công.',
+                'data' => $dataCreat
+            ];
+        }
+        return json_encode($res);
+    }
 
     public function themTaiLieu(Request $request)
     {
@@ -197,7 +253,7 @@ class AdminController extends Controller
             'tag' => $req['tag'],
             'mo_ta' => $req['mo_ta'],
             'noi_dung' => $req['noi_dung'],
-            'link_file' => $fileTaiLieu?$fileTaiLieu:'/404',
+            'link_file' => $fileTaiLieu ? $fileTaiLieu : '/404',
             'hinh_anh' => $fileAnhBia,
         ]);
         $res = [
@@ -216,7 +272,7 @@ class AdminController extends Controller
         if (isset($check_mon_hoc)) {
             $res = [
                 'rc' => '-1',
-                'rd' => 'Chương trình đào tạo đang có môn học. Không thể xóa. ['.$check_mon_hoc['ten_mon'].']'
+                'rd' => 'Chương trình đào tạo đang có môn học. Không thể xóa. [' . $check_mon_hoc['ten_mon'] . ']'
             ];
         } else {
             if ($check) {
@@ -287,6 +343,27 @@ class AdminController extends Controller
         return json_encode($res);
     }
 
+    public function xoaThongBao(Request $request)
+    {
+        $req = $request->all();
+        $check = thongBao::where('id', $req['id'])->first();
+        if ($check) {
+            $check->delete();
+            $res = [
+                'rc' => 0,
+                'rd' => 'Đã xóa thành công.',
+                'data' => null
+            ];
+
+        } else {
+            $res = [
+                'rc' => '-1',
+                'rd' => 'Không tìm thấy dữ  liệu cần xoá'
+            ];
+        }
+        return json_encode($res);
+    }
+
     public function layDanhSachChuongTrinhDaoTao(Request $request)
     {
 
@@ -318,6 +395,30 @@ class AdminController extends Controller
         }
         $total = $list->count();
         $data = $list->with('chuongTrinhDaoTao')->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
+        if (count($data)) {
+            $res = [
+                'rc' => '0',
+                'data' => $data,
+                'total' => $total
+            ];
+        } else {
+            $res = [
+                'rc' => '1',
+                'rd' => 'Không tìm thấy bản ghi nào'
+            ];
+        }
+        return json_encode($res);
+
+    }
+    public function layDanhSachThongBao(Request $request)
+    {
+        $req = $request->all();
+        $list = thongBao::where('id', '>', 0);
+        if (isset($req['key']) && $req['key'] != '') {
+            $list = thongBao::where('tieu_de', 'like', '%' . $req['key'] . '%');
+        }
+        $total = $list->count();
+        $data = $list->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
         if (count($data)) {
             $res = [
                 'rc' => '0',

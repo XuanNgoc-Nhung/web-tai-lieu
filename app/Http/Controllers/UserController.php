@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\chuongTrinhDaoTao;
 use App\monHoc;
 use App\taiLieu;
+use App\thongBao;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,6 +14,13 @@ class UserController extends Controller
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
         $list_new = taiLieu::with('monHocChinh')->get();
         return view('user.home',compact(['list_new','list_ctdt']));
+    }
+    public function getThongBao(){
+        $list_thong_bao = thongBao::all();
+        $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
+        $tai_lieu_moi =  taiLieu::orderBy('created_at','DESC')->take(10)->get();
+        $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
+        return view('user.thong-bao',compact(['list_thong_bao','list_ctdt','tai_lieu_moi','tai_lieu_lien_quan']));
     }
     public function getTaiLieuTheoMon(Request $request){
         $req = $request->all();
@@ -31,6 +39,14 @@ class UserController extends Controller
         $tai_lieu_moi =  taiLieu::where('id','!=',$post->id)->orderBy('created_at','DESC')->take(10)->get();
         $tai_lieu_lien_quan = taiLieu::where('mon_hoc_chinh',$post->mon_hoc_chinh)->where('id','!=',$post->id)->get();
         return view('user.chi-tiet',compact(['list_ctdt','post','tai_lieu_lien_quan','tai_lieu_moi']));
+    }
+    public function chiTietThongBao(Request $request){
+        $req = $request->all();
+        $thong_bao = thongBao::where('id',$req['id'])->first();
+        $list_ctdt = chuongTrinhDaoTao::with('monHoc')->get();
+        $tai_lieu_moi =  taiLieu::orderBy('created_at','DESC')->take(10)->get();
+        $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
+        return view('user.chi-tiet-thong-bao',compact(['thong_bao','list_ctdt','tai_lieu_moi','tai_lieu_lien_quan']));
     }
     public function getTimKiemTaiLieu(Request $request){
         $req = $request->all();
