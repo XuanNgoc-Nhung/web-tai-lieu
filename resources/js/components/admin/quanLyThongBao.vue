@@ -3,8 +3,8 @@
         :gutter="24"
         v-loading.fullscreen.lock="loading.status" class="row">
         <el-col :span="6" style="padding-bottom: 15px;">
-            <label>Tên tài liệu</label>
-            <el-input v-model="dataSearch.tieu_de" placeholder="Nhập tên tài liệu" clearable></el-input>
+            <label>Tiêu đề thông báo</label>
+            <el-input v-model="dataSearch.tieu_de" placeholder="Nhập" clearable></el-input>
         </el-col>
         <el-col :span="6">
             <label style="color: transparent;display:block">Tìm kiếm</label>
