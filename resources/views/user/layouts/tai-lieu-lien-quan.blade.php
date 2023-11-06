@@ -45,6 +45,10 @@
                     </div>
                 </div>
             @endforeach
+
+            <div class="mt-2">
+                {{ $tai_lieu_lien_quan->links() }}
+            </div>
         </div>
     </div>
 </section>

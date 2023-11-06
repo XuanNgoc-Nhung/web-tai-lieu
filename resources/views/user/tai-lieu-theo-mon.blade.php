@@ -13,7 +13,8 @@
                             <div class="profile-widget">
                                 <div class="doc-img">
                                     <a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}">
-                                        <img class="img-fluid" style="width: 120px; height: 150px" alt="User Image" src="{{$taiLieu->hinh_anh?$taiLieu->hinh_anh:'assets/img/doctors/doctor-01.jpg'}}">
+                                        <img class="img-fluid" style="width: 120px; height: 150px" alt="User Image"
+                                             src="{{$taiLieu->hinh_anh?$taiLieu->hinh_anh:'assets/img/doctors/doctor-01.jpg'}}">
 
                                         @if($taiLieu->trang_thai!=1)
                                             <div class="hetHan text-center">
@@ -28,7 +29,7 @@
                                     </h3>
                                     <p class="speciality hien-1-dong">{{$taiLieu->mo_ta}}</p>
                                     <ul class="available-info">
-{{--                                        <li class="hien-1-dong">Tác giả: </i>{{$taiLieu->tac_gia}}</li>--}}
+                                        {{--                                        <li class="hien-1-dong">Tác giả: </i>{{$taiLieu->tac_gia}}</li>--}}
                                         <li>Loại: {{$taiLieu->loai==1?'Đọc tại chỗ':'Mang về'}}</li>
                                         <li>Ngày tạo: {{$taiLieu->created_at}}</li>
                                         <li>
@@ -44,13 +45,19 @@
                                                 <a style="cursor: not-allowed" class="btn view-btn">Tạm hết</a>
                                             @endif
                                         </div>
-                                        <div class="col-6"><a href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}" class="btn book-btn">Chi tiết</a>
+                                        <div class="col-6"><a
+                                                href="{{route('user.chiTietTaiLieu').'?postId='.$taiLieu->id}}"
+                                                class="btn book-btn">Chi tiết</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
+                    <div class="mt-2">
+                        {{ $list_tai_lieu->appends(request()->query())->onEachSide(1)->links() }}
+                    </div>
                 @else
                     <div class="text-center">
                         <h3>Môn học chưa có tài liệu</h3>

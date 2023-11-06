@@ -22,11 +22,12 @@
                                                 <img class="img-fluid"
                                                      src="{{$tl->hinh_anh?$tl->hinh_anh:'assets/img/blog/blog-01.jpg'}}"
                                                      alt="Hình ảnh tài liệu">
-                                                    @if($tl->trang_thai!=1)
-                                                        <div class="hetHan text-center" style="height: 100%;top:0">
-                                                            <h2 style="color: red; margin-top: 55%; font-size: 3rem">Tạm hết</h2>
-                                                        </div>
-                                                    @endif
+                                                @if($tl->trang_thai!=1)
+                                                    <div class="hetHan text-center" style="height: 100%;top:0">
+                                                        <h2 style="color: red; margin-top: 55%; font-size: 3rem">Tạm
+                                                            hết</h2>
+                                                    </div>
+                                                @endif
                                             </a>
                                         </div>
                                         <div class="blog-content">
@@ -42,12 +43,16 @@
                                             <h3 class="blog-title"><a
                                                     href="{{route('user.chiTietTaiLieu').'?postId='.$tl->id}}">{{$tl->ten_tai_lieu}}</a>
                                             </h3>
-{{--                                            <p class="mb-0">{{$tl->mo_ta}}</p>--}}
+                                            {{--                                            <p class="mb-0">{{$tl->mo_ta}}</p>--}}
                                         </div>
                                     </div>
                                     <!-- /Blog Post -->
                                 </div>
                             @endforeach
+
+                            <div class="mt-2">
+                                {{ $list_tai_lieu->appends(request()->query())->onEachSide(1)->links() }}
+                            </div>
                         @else
                             <div class="text-center">
                                 <h2 style="color: red">Không có kết quả phù hợp</h2>

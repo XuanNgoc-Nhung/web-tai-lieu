@@ -20,6 +20,9 @@
                                 </div>
                             </div>
                         @endforeach
+                        <div class="mt-2">
+                            {{ $list_thong_bao->links() }}
+                        </div>
                     @else
                         <div class="text-center">
                             <h4>Chưa có thông báo</h4>
