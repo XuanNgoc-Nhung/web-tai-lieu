@@ -183,7 +183,7 @@ class AdminController extends Controller
         if ($check) {
             $res = [
                 'rc' => -1,
-                'rd' => 'Môn học đã tồn tại.',
+                'rd' => 'Học phần đã tồn tại.',
                 'data' => null
             ];
 
