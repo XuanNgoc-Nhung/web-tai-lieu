@@ -43,7 +43,7 @@
                             </thead>
                             <tbody v-if="list_data&&list_data.length">
                             <tr v-for="(item,index) in list_data" :key="index">
-                                <td class="text-center">{{ index + 1 }}</td>
+                                <td class="text-center">{{(paging.currentPage - 1) * paging.limit + index + 1}}</td>
                                 <td><p>{{ getTenChuongTrinhDaoTao(item.ctdt_id) }}</p>
                                 </td>
                                 <td><p>{{ item.ten_mon }}</p></td>
@@ -367,7 +367,11 @@ export default {
             this.show_add = false;
             this.show_update = false;
         },
-        layLai() {
+        layLai(e) {
+            this.paging.start = e.start;
+            this.paging.limit = e.limit;
+            this.paging.currentPage = e.currentPage;
+            this.getData()
         },
         thongBao(typeNoty, msgNoty) {
             let msg = "";
