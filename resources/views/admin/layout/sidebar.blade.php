@@ -11,7 +11,7 @@
                     <a href="{{route('admin.home')}}"><i class="feather-sliders"></i> <span>Chương trình đào tạo</span></a>
                 </li>
                 <li class=" {{ Request::routeIs('admin.monHoc')? 'active' : '' }}">
-                    <a href="{{route('admin.monHoc')}}"><i class="feather-sliders"></i> <span>Môn học</span></a>
+                    <a href="{{route('admin.monHoc')}}"><i class="feather-sliders"></i> <span>Học phần</span></a>
                 </li>
                 <li class=" {{ Request::routeIs('admin.taiLieu')? 'active' : '' }}">
                     <a href="{{route('admin.taiLieu')}}"><i class="feather-sliders"></i> <span>Tài liệu</span></a>

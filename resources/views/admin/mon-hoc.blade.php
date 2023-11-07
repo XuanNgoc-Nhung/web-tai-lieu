@@ -1,6 +1,6 @@
 @extends("admin.layout.app")
 @section("title")
-    <title>Môn học</title>
+    <title>Học phần</title>
 @endsection
 @section("content")
     <div id="app">

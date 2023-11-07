@@ -22,7 +22,7 @@
             <div class="card">
                 <div class="card-header">
                     <el-row :gutter="24">
-                        <el-col :span="12"><h5 class="card-title">Môn học</h5></el-col>
+                        <el-col :span="12"><h5 class="card-title">Học phần</h5></el-col>
                         <el-col :span="12" class="text-right">
                             <el-button type="primary" @click.prevent="showAdd()">Thêm mới</el-button>
                         </el-col>
@@ -35,7 +35,8 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Chương trình đào tạo</th>
-                                <th>Môn học</th>
+                                <th>Tên học phần</th>
+                                <th>Mã học phần</th>
                                 <th>Thời gian tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -46,6 +47,7 @@
                                 <td><p>{{ getTenChuongTrinhDaoTao(item.ctdt_id) }}</p>
                                 </td>
                                 <td><p>{{ item.ten_mon }}</p></td>
+                                <td><p>{{ item.ma_mon }}</p></td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Chỉnh sửa
@@ -73,7 +75,7 @@
         </el-col>
         <el-col :span="24">
             <el-dialog
-                title="Thêm mới môn học"
+                title="Thêm mới học phần"
                 :visible.sync="show_add"
                 custom-class="minWidth375"
                 width="50%"
@@ -87,7 +89,12 @@
                                      :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
                         <el-col :xs="24" :sm="12" :md="12" :lg="12">
-                            <label>Tên môn học</label>
+                            <label>Mã học phần</label>
+                            <el-input style="width: 100%" v-model="dataAdd.ma_mon" type="text"
+                                      placeholder="Nhập"></el-input>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12" class="mt-3">
+                            <label>Tên học phần</label>
                             <el-input style="width: 100%" v-model="dataAdd.name" type="text"
                                       placeholder="Nhập"></el-input>
                         </el-col>
@@ -99,7 +106,7 @@
   </span>
             </el-dialog>
             <el-dialog
-                title="Chỉnh sửa chương trình đào tạo"
+                title="Chỉnh sửa học phần"
                 :visible.sync="show_update"
                 custom-class="minWidth375"
                 width="50%"
@@ -113,7 +120,12 @@
                                      :data="list_chuong_trinh_dao_tao" :fields="['ten','id']"/>
                         </el-col>
                         <el-col :xs="24" :sm="12" :md="12" :lg="12">
-                            <label>Tên chương trình đào tạo</label>
+                            <label>Mã học phần</label>
+                            <el-input style="width: 100%" v-model="dataUpdate.ma_mon" type="text"
+                                      placeholder="Nhập"></el-input>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="12" :lg="12" class="mt-3">
+                            <label>Tên học phần</label>
                             <el-input style="width: 100%" v-model="dataUpdate.ten_mon" type="text"
                                       placeholder="Nhập"></el-input>
                         </el-col>
@@ -152,7 +164,8 @@ export default {
             },
             dataAdd: {
                 ctdt: '',
-                name: ''
+                name: '',
+                ma_mon:''
             },
             list_data: [],
             list_chuong_trinh_dao_tao: [],
@@ -171,7 +184,8 @@ export default {
             },
             dataUpdate: {
                 ctdt_id: [],
-                name: ''
+                name: '',
+                ma_mon:''
             }
         }
     },
@@ -286,12 +300,17 @@ export default {
                 return
             }
             if (!this.dataUpdate.ten_mon || this.dataUpdate.ten_mon == '') {
-                this.thongBao('error', 'Nhập tên môn học.')
+                this.thongBao('error', 'Nhập tên học phần.')
+                return
+            }
+            if (!this.dataUpdate.ma_mon || this.dataUpdate.ma_mon == '') {
+                this.thongBao('error', 'Nhập tên học phần.')
                 return
             }
             let params = {
                 ctdt_id: this.dataUpdate.ctdt_id.toString(),
                 ten_mon: this.dataUpdate.ten_mon,
+                ma_mon: this.dataUpdate.ma_mon,
                 id: this.dataUpdate.id
             }
             rest_api.post('/admin/sua-mon-hoc', params).then(
@@ -314,11 +333,16 @@ export default {
                 return
             }
             if (!this.dataAdd.name || this.dataAdd.name == '') {
-                this.thongBao('error', 'Nhập tên môn học.')
+                this.thongBao('error', 'Nhập tên học phần.')
+                return
+            }
+            if (!this.dataAdd.ma_mon || this.dataAdd.ma_mon == '') {
+                this.thongBao('error', 'Nhập mã học phần.')
                 return
             }
             let params = {
                 ten: this.dataAdd.name,
+                ma_mon: this.dataAdd.ma_mon,
                 ctdt: this.dataAdd.ctdt.toString()
             }
 
@@ -382,5 +406,8 @@ export default {
 <style scoped="scoped">
 th {
     text-align: center;
+}
+label{
+    margin:0
 }
 </style>

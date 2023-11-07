@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class monHoc extends Model
 {
     protected $fillable = [
-        'ten_mon','ctdt_id'
+        'ten_mon','ctdt_id','ma_mon'
     ];
     protected $table = 'mon-hoc';
     public function chuongTrinhDaoTao(){

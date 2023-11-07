@@ -110,6 +110,7 @@ class AdminController extends Controller
         if ($check) {
             $check->ctdt_id = $req['ctdt_id'];
             $check->ten_mon = $req['ten_mon'];
+            $check->ma_mon = $req['ma_mon'];
             $check->save();
             $res = [
                 'rc' => 0,
@@ -178,7 +179,7 @@ class AdminController extends Controller
     public function themMonHoc(Request $request)
     {
         $req = $request->all();
-        $check = monHoc::where('ten_mon', $req['ten'])->first();
+        $check = monHoc::where('ten_mon', $req['ten'])->orWhere('ma_mon', $req['ma_mon'])->first();
         if ($check) {
             $res = [
                 'rc' => -1,
@@ -190,6 +191,7 @@ class AdminController extends Controller
             $dataCreat = monHoc::create([
                 'ten_mon' => $req['ten'],
                 'ctdt_id' => $req['ctdt'],
+                'ma_mon' => $req['ma_mon'],
             ]);
             $res = [
                 'rc' => 0,

@@ -145,7 +145,7 @@
                                       v-model="dataAdd.ten_tai_lieu"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Mô tả </label>
+                            <label>Năm xuất bản </label>
                             <el-input type="text" placeholder="Nhập" clearable
                                       v-model="dataAdd.mo_ta"></el-input>
                         </el-col>
@@ -347,7 +347,7 @@
                                       v-model="dataUpdate.ten_tai_lieu"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Mô tả </label>
+                            <label>Năm xuất bản </label>
                             <el-input type="text" placeholder="Nhập" clearable
                                       v-model="dataUpdate.mo_ta"></el-input>
                         </el-col>
