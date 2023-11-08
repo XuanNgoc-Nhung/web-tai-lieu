@@ -125,7 +125,7 @@
                             </el-select>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Áp dụng làm tài liệu phụ cho môn <span class="required" style="color: red">*</span></label>
+                            <label>Áp dụng làm tài liệu phụ cho môn </label>
 
                             <eselect style="width:100%" multiple collapseTags v-model="dataAdd.mon_hoc_phu"
                                      :placeholder="'Chọn'" filterable
@@ -145,12 +145,12 @@
                                       v-model="dataAdd.ten_tai_lieu"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Năm xuất bản <span class="required" style="color: red">*</span></label>
+                            <label>Năm xuất bản</label>
                             <el-input type="text" placeholder="Nhập" clearable
                                       v-model="dataAdd.mo_ta"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Tác giả <span class="required" style="color: red">*</span></label>
+                            <label>Tác giả </label>
                             <el-select
                                 no-match-text="Không tìm thấy"
                                 no-data-text="Nhập nội dung sau đó nhấn enter"
@@ -181,7 +181,7 @@
                             </el-select>
                         </el-col>
                         <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
-                            <label>Thẻ <span class="required" style="color: red">*</span></label>
+                            <label>Thẻ</label>
                             <el-select
                                 no-match-text="Không tìm thấy"
                                 no-data-text="Nhập nội dung sau đó nhấn enter"
@@ -200,7 +200,7 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col v-if="file_tai_lieu" :span="6">
+                        <el-col :span="6" v-if="file_tai_lieu">
                             <label>Tài liệu đã chọn</label>
                             <div class="source d-flex">
                                 <ul class="el-upload-list el-upload-list--picture-card " style="display: contents">
@@ -209,7 +209,7 @@
                                         class="el-upload-list__item is-ready"
                                     >
                                         <el-alert
-                                            :title="file_tai_lieu.name"
+                                            :title="file_tai_lieu?file_tai_lieu.name:''"
                                             type="success"
                                             effect="dark">
                                         </el-alert>
@@ -327,7 +327,7 @@
                             </el-select>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Áp dụng làm tài liệu phụ cho môn <span class="required" style="color: red">*</span></label>
+                            <label>Áp dụng làm tài liệu phụ cho môn </label>
 
                             <eselect style="width:100%" multiple collapseTags v-model="dataUpdate.mon_hoc_phu"
                                      :placeholder="'Chọn'" filterable
@@ -347,12 +347,12 @@
                                       v-model="dataUpdate.ten_tai_lieu"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Năm xuất bản <span class="required" style="color: red">*</span> </label>
+                            <label>Năm xuất bản </label>
                             <el-input type="text" placeholder="Nhập" clearable
                                       v-model="dataUpdate.mo_ta"></el-input>
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
-                            <label>Tác giả <span class="required" style="color: red">*</span></label>
+                            <label>Tác giả </label>
                             <el-select
                                 no-match-text="Không tìm thấy"
                                 no-data-text="Nhập nội dung sau đó nhấn enter"
@@ -383,7 +383,7 @@
                             </el-select>
                         </el-col>
                         <el-col :xs="12" :sm="24" :md="6" :lg="6" :xl="6">
-                            <label>Thẻ <span class="required" style="color: red">*</span></label>
+                            <label>Thẻ </label>
                             <el-select
                                 no-match-text="Không tìm thấy"
                                 no-data-text="Nhập nội dung sau đó nhấn enter"
@@ -812,7 +812,7 @@ export default {
             })
         },
         confirmAdd() {
-            if (this.dataAdd.mon_hoc_phu == ''  || this.dataAdd.noi_dung == '' || this.dataAdd.tag.length == 0 || this.dataAdd.tac_gia.length == 0 || this.dataAdd.mon_hoc_chinh == '' ) {
+            if ( this.dataAdd.noi_dung == '' || this.dataAdd.mon_hoc_chinh == '' ) {
                 this.thongBao('error', 'Vui lòng điền đầy đủ thông tin.')
                 return
             }
@@ -910,6 +910,5 @@ th {
     margin-bottom: 0;
 }
 .required{
-    font-size: 20px;
 }
 </style>

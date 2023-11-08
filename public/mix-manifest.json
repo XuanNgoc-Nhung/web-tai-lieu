@@ -1,6 +1,7 @@
 {
     "/js/admin-chuong-trinh-dao-tao.js": "/js/admin-chuong-trinh-dao-tao.js",
     "/js/admin-quan-ly-mon-hoc.js": "/js/admin-quan-ly-mon-hoc.js",
+    "/js/admin-quan-ly-nguoi-dung.js": "/js/admin-quan-ly-nguoi-dung.js",
     "/js/admin-quan-ly-tai-lieu.js": "/js/admin-quan-ly-tai-lieu.js",
     "/js/admin-quan-ly-thong-bao.js": "/js/admin-quan-ly-thong-bao.js"
 }

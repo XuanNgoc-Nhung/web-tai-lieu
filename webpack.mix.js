@@ -15,6 +15,7 @@ mix
     .js('resources/js/admin-quan-ly-mon-hoc.js', 'public/js/admin-quan-ly-mon-hoc.js')
     .js('resources/js/admin-quan-ly-tai-lieu.js', 'public/js/admin-quan-ly-tai-lieu.js')
     .js('resources/js/admin-quan-ly-thong-bao.js', 'public/js/admin-quan-ly-thong-bao.js')
+    .js('resources/js/admin-quan-ly-nguoi-dung.js', 'public/js/admin-quan-ly-nguoi-dung.js')
     .options({
         processCssUrls: false
     })

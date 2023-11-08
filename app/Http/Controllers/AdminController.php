@@ -6,9 +6,11 @@ use App\chuongTrinhDaoTao;
 use App\monHoc;
 use App\taiLieu;
 use App\thongBao;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Hash;
 
 class AdminController extends Controller
 {
@@ -35,6 +37,10 @@ class AdminController extends Controller
     public function getThongBao()
     {
         return view('admin.thong-bao');
+    }
+    public function getUser()
+    {
+        return view('admin.nguoi-dung');
     }
 
     public function suaChuongTrinhDaoTao(Request $request)
@@ -151,6 +157,28 @@ class AdminController extends Controller
         }
         return json_encode($res);
     }
+    public function suaNguoiDung(Request $request)
+    {
+        $req = $request->all();
+        $check = User::where('id', $req['id'])->first();
+        if ($check) {
+            $check->phone = $req['phone'];
+            $check->name = $req['name'];
+            $check->save();
+            $res = [
+                'rc' => 0,
+                'rd' => 'Cập nhật thành công',
+                'data' => $check
+            ];
+        } else {
+            $res = [
+                'rc' => -1,
+                'rd' => 'Không tìm thấy dữ liệu',
+                'data' => null
+            ];
+        }
+        return json_encode($res);
+    }
 
     public function themChuongTrinhDaoTao(Request $request)
     {
@@ -192,6 +220,32 @@ class AdminController extends Controller
                 'ten_mon' => $req['ten'],
                 'ctdt_id' => $req['ctdt'],
                 'ma_mon' => $req['ma_mon'],
+            ]);
+            $res = [
+                'rc' => 0,
+                'rd' => 'Thêm dữ liệu thành công.',
+                'data' => $dataCreat
+            ];
+        }
+        return json_encode($res);
+    }
+    public function themNguoiDung(Request $request)
+    {
+        $req = $request->all();
+        $check = User::where('email', $req['email'])->orWhere('ma_sv', $req['ma_sv'])->first();
+        if ($check) {
+            $res = [
+                'rc' => -1,
+                'rd' => 'Email hoặc mã người dùng đã tồn tại.',
+                'data' => null
+            ];
+        } else {
+            $dataCreat = User::create([
+                'phone' => $req['phone'],
+                'email' => $req['email'],
+                'name' => $req['name'],
+                'ma_sv' => $req['ma_sv'],
+                'password' => Hash::make($req['pass'])
             ]);
             $res = [
                 'rc' => 0,
@@ -299,11 +353,11 @@ class AdminController extends Controller
     {
         $req = $request->all();
         $check = monHoc::where('id', $req['id'])->first();
-        $tai_lieu = chuongTrinhDaoTao::all();
+        $tai_lieu = taiLieu::where('mon_hoc_chinh',$req['id'])->get();
         if (count($tai_lieu)) {
             $res = [
                 'rc' => '-1',
-                'rd' => 'Môn học đang có tài liệu, không thể xóa.'
+                'rd' => 'Học phần đang có tài liệu, không thể xóa.'
             ];
         } else {
             if ($check) {
@@ -365,6 +419,26 @@ class AdminController extends Controller
         }
         return json_encode($res);
     }
+    public function xoaNguoiDung(Request $request)
+    {
+        $req = $request->all();
+        $check = User::where('id', $req['id'])->first();
+        if ($check) {
+            $check->delete();
+            $res = [
+                'rc' => 0,
+                'rd' => 'Đã xóa thành công.',
+                'data' => null
+            ];
+
+        } else {
+            $res = [
+                'rc' => '-1',
+                'rd' => 'Không tìm thấy dữ  liệu cần xoá'
+            ];
+        }
+        return json_encode($res);
+    }
 
     public function layDanhSachChuongTrinhDaoTao(Request $request)
     {
@@ -397,6 +471,30 @@ class AdminController extends Controller
         }
         $total = $list->count();
         $data = $list->with('chuongTrinhDaoTao')->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
+        if (count($data)) {
+            $res = [
+                'rc' => '0',
+                'data' => $data,
+                'total' => $total
+            ];
+        } else {
+            $res = [
+                'rc' => '1',
+                'rd' => 'Không tìm thấy bản ghi nào'
+            ];
+        }
+        return json_encode($res);
+
+    }
+    public function layDanhSachNguoiDung(Request $request)
+    {
+        $req = $request->all();
+        $list = User::where('role', '=', 0);
+        if (isset($req['key']) && $req['key'] != '') {
+            $list = User::where('email', 'like', '%' . $req['key'] . '%');
+        }
+        $total = $list->count();
+        $data = $list->orderBy('created_at', 'DESC')->skip($req['start'])->take($req['limit'])->get();
         if (count($data)) {
             $res = [
                 'rc' => '0',
