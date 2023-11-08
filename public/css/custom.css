@@ -1,18 +1,22 @@
 
 .dts-noty-success {
     background: #67c23a !important;
+    z-index:99999 !important;
 }
 
 .dts-noty-info {
     background: #909399 !important;
+    z-index:99999 !important;
 }
 
 .dts-noty-warning {
     background: #e6a23c !important;
+    z-index:99999 !important;
 }
 
 .dts-noty-error {
     background: #f56c6c !important;
+    z-index:99999 !important;
 }
 
 .el-message__content {

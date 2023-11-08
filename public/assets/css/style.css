@@ -2602,7 +2602,7 @@ button.bg-danger:hover {
 	position: fixed;
     display: block;
     width: 100%;
-    z-index: 9999;
+    z-index: 1999;
     background: transparent;
 }
 .header-trans .header-nav {

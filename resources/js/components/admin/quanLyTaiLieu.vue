@@ -702,9 +702,9 @@ export default {
         },
         showUpdate(item) {
             this.dataUpdate = JSON.parse(JSON.stringify(item))
-            this.dataUpdate.tac_gia = item.tac_gia.split(',').sort()
-            this.dataUpdate.tag = item.tag.split(',').sort()
-            this.dataUpdate.mon_hoc_phu = this.arrayStringToNumber(item.mon_hoc_phu.split(',').sort());
+            this.dataUpdate.tac_gia = item.tac_gia?item.tac_gia.split(',').sort():''
+            this.dataUpdate.tag = item.tag?item.tag.split(',').sort():''
+            this.dataUpdate.mon_hoc_phu = item.mon_hoc_phu?this.arrayStringToNumber(item.mon_hoc_phu.split(',').sort()):'';
             this.dataUpdate.mon_hoc_chinh = parseInt(item.mon_hoc_chinh.id)
             this.dataUpdate.ctdt = ''
             this.file_tai_lieu = {

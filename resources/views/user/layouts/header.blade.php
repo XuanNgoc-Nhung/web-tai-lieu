@@ -52,6 +52,11 @@
                         <li class="login-link">
                             <a href="{{route('admin.home')}}">Quản lý</a>
                         </li>
+                    @else
+                        <li class="login-link">
+                            <a href="{{route('user.thayDoiMatKhau')}}">Đổi Mk</a>
+                        </li>
+
                     @endif
                     <li class="login-link">
                         <a
@@ -72,6 +77,10 @@
                 @if(Auth::user()->role==1)
                     <li class="nav-item">
                         <a class="nav-link header-login white-bg" href="{{route('admin.home')}}"> Quản lý</a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link header-login white-bg" href="{{route('user.thayDoiMatKhau')}}">Đổi Mk</a>
                     </li>
                 @endif
                 <li class="nav-item">

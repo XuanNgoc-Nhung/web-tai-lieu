@@ -27,5 +27,6 @@
 
 <!-- jQuery -->
 @include('user.layouts.js')
+@yield('js_location')
 </body>
 </html>

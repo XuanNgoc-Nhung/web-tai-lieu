@@ -19,7 +19,9 @@ Route::get('/tai-lieu-theo-mon', 'UserController@getTaiLieuTheoMon')->name('user
 Route::get('/chi-tiet', 'UserController@getChiTietTaiLieu')->name('user.chiTietTaiLieu');
 Route::get('/tim-kiem', 'UserController@getTimKiemTaiLieu')->name('user.timKiemTaiLieu');
 Route::get('/thong-bao', 'UserController@getThongBao')->name('user.thongBao');
+Route::get('/thay-doi-mat-khau', 'UserController@getThayDoiMatKhau')->name('user.thayDoiMatKhau');
 Route::get('/chi-tiet-thong-bao', 'UserController@chiTietThongBao')->name('user.chiTietThongBao');
+Route::post('/doi-mat-khau', 'UserController@doiMatKhau');
 
 Auth::routes();
 
