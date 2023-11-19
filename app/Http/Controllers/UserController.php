@@ -7,6 +7,7 @@ use App\monHoc;
 use App\taiLieu;
 use App\thongBao;
 use App\User;
+use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,25 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    public function dangNhap(Request $request)
+    {
+        Log::info('Đăng nhập:');
+        $infoLogin = array(
+            'ma_sv' => $request->ma_sv,
+            'password' => $request->password
+        );
+        $auth = Auth::attempt($infoLogin);
+        Log::info($infoLogin);
+        Log::info($auth);
+        if ($auth) {
+            return Redirect::route('user.home');
+            Log::info('Đăng nhập thành công');
+        } else {
+            return Redirect::back()->withErrors(['msg' => 'Tài khoản hoặc mật khẩu không chính xác']);
+            Log::info('Đăng nhập thất bại');
+        }
+    }
+
     public function getHome()
     {
         $list_ctdt = chuongTrinhDaoTao::with('monHoc')->orderBy('created_at', 'DESC')->get();

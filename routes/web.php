@@ -24,6 +24,7 @@ Route::get('/chi-tiet-thong-bao', 'UserController@chiTietThongBao')->name('user.
 Route::post('/doi-mat-khau', 'UserController@doiMatKhau');
 
 Auth::routes();
+Route::post('/login', 'UserController@dangNhap');
 
 Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
 //    Route::get('/', 'AdminController@getHome')->name('admin.home');
