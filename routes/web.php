@@ -19,9 +19,12 @@ Route::get('/tai-lieu-theo-mon', 'UserController@getTaiLieuTheoMon')->name('user
 Route::get('/chi-tiet', 'UserController@getChiTietTaiLieu')->name('user.chiTietTaiLieu');
 Route::get('/tim-kiem', 'UserController@getTimKiemTaiLieu')->name('user.timKiemTaiLieu');
 Route::get('/thong-bao', 'UserController@getThongBao')->name('user.thongBao');
+Route::get('/yeu-cau', 'UserController@getYeuCau')->name('user.yeuCau');
 Route::get('/thay-doi-mat-khau', 'UserController@getThayDoiMatKhau')->name('user.thayDoiMatKhau');
 Route::get('/chi-tiet-thong-bao', 'UserController@chiTietThongBao')->name('user.chiTietThongBao');
+Route::get('/chi-tiet-yeu-cau', 'UserController@chiTietYeuCau')->name('user.chiTietYeuCau');
 Route::post('/doi-mat-khau', 'UserController@doiMatKhau');
+Route::post('/them-yeu-cau', 'UserController@themYeuCau');
 
 Auth::routes();
 Route::post('/login', 'UserController@dangNhap');
@@ -32,6 +35,7 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::get('/mon-hoc', 'AdminController@getMonHoc')->name('admin.monHoc');
     Route::get('/tai-lieu', 'AdminController@getTaiLieu')->name('admin.taiLieu');
     Route::get('/thong-bao', 'AdminController@getThongBao')->name('admin.thongBao');
+    Route::get('/yeu-cau', 'AdminController@getYeuCau')->name('admin.yeuCau');
     Route::get('/user', 'AdminController@getUser')->name('admin.user');
     Route::post('/them-chuong-trinh-dao-tao', 'AdminController@themChuongTrinhDaoTao');
     Route::post('/them-mon-hoc', 'AdminController@themMonHoc');
@@ -42,6 +46,7 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/delete-ctdt', 'AdminController@xoaChuongTrinhDaoTao');
     Route::post('/delete-tai-lieu', 'AdminController@xoaTaiLieu');
     Route::post('/delete-thong-bao', 'AdminController@xoaThongBao');
+    Route::post('/delete-yeu-cau', 'AdminController@xoaYeuCau');
     Route::post('/delete-nguoi-dung', 'AdminController@xoaNguoiDung');
     Route::post('/sua-chuong-trinh-dao-tao', 'AdminController@suaChuongTrinhDaoTao');
     Route::post('/sua-mon-hoc', 'AdminController@suaMonHoc');
@@ -52,6 +57,7 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/lay-danh-sach-mon-hoc', 'AdminController@layDanhSachMonHoc');
     Route::post('/lay-danh-sach-tai-lieu', 'AdminController@layDanhSachTaiLieu');
     Route::post('/lay-danh-sach-thong-bao', 'AdminController@layDanhSachThongBao');
+    Route::post('/lay-danh-sach-yeu-cau', 'AdminController@layDanhSachYeuCau');
     Route::post('/lay-danh-sach-nguoi-dung', 'AdminController@layDanhSachNguoiDung');
 });
 

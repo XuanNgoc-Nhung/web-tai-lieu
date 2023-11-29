@@ -47,7 +47,9 @@
                         <a href="{{route('login')}}">Đăng nhập</a>
                     </li>
                 @else
-
+                    <li class="nav-item">
+                        <a href="{{route('user.yeuCau')}}">Yêu cầu</a>
+                    </li>
                     @if(Auth::user()->role==1)
                         <li class="login-link">
                             <a href="{{route('admin.home')}}">Quản lý</a>

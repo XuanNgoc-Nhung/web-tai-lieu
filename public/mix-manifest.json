@@ -4,5 +4,7 @@
     "/js/admin-quan-ly-nguoi-dung.js": "/js/admin-quan-ly-nguoi-dung.js",
     "/js/admin-quan-ly-tai-lieu.js": "/js/admin-quan-ly-tai-lieu.js",
     "/js/admin-quan-ly-thong-bao.js": "/js/admin-quan-ly-thong-bao.js",
-    "/js/user-doi-mat-khau.js": "/js/user-doi-mat-khau.js"
+    "/js/admin-quan-ly-yeu-cau.js": "/js/admin-quan-ly-yeu-cau.js",
+    "/js/user-doi-mat-khau.js": "/js/user-doi-mat-khau.js",
+    "/js/user-yeu-cau.js": "/js/user-yeu-cau.js"
 }

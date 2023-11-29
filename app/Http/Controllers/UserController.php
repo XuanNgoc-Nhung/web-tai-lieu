@@ -7,6 +7,7 @@ use App\monHoc;
 use App\taiLieu;
 use App\thongBao;
 use App\User;
+use App\YeuCau;
 use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,14 @@ class UserController extends Controller
         $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
         return view('user.thong-bao', compact(['list_thong_bao', 'list_ctdt', 'tai_lieu_moi', 'tai_lieu_lien_quan']));
     }
+    public function getYeuCau()
+    {
+        $list_yeu_cau = YeuCau::orderBy('created_at', 'DESC')->where('user_id',Auth::id())->paginate(10, ['*'], 'noti');
+        $list_ctdt = chuongTrinhDaoTao::with('monHoc')->orderBy('created_at', 'DESC')->get();
+        $tai_lieu_moi = taiLieu::orderBy('created_at', 'DESC')->take(10)->get();
+        $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
+        return view('user.yeu-cau', compact(['list_yeu_cau', 'list_ctdt', 'tai_lieu_moi', 'tai_lieu_lien_quan']));
+    }
 
     public function getTaiLieuTheoMon(Request $request)
     {
@@ -91,6 +100,16 @@ class UserController extends Controller
         $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
         return view('user.chi-tiet-thong-bao', compact(['thong_bao', 'list_ctdt', 'tai_lieu_moi', 'tai_lieu_lien_quan', 'thong_bao_khac']));
     }
+    public function chiTietYeuCau(Request $request)
+    {
+        $req = $request->all();
+        $yeu_cau = YeuCau::where('id', $req['id'])->orderBy('created_at', 'DESC')->first();
+        $list_ctdt = chuongTrinhDaoTao::with('monHoc')->orderBy('created_at', 'DESC')->get();
+        $tai_lieu_moi = taiLieu::orderBy('created_at', 'DESC')->take(10)->get();
+        $yeu_cau_khac = YeuCau::where('id', '!=', $req['id'])->where('user_id',Auth::id())->orderBy('created_at', 'DESC')->paginate(6, ['*'], 'notikhac');
+        $tai_lieu_lien_quan = taiLieu::inRandomOrder()->take(10)->get();
+        return view('user.chi-tiet-yeu-cau', compact(['yeu_cau', 'list_ctdt', 'tai_lieu_moi', 'tai_lieu_lien_quan', 'yeu_cau_khac']));
+    }
 
     public function getTimKiemTaiLieu(Request $request)
     {
@@ -106,6 +125,20 @@ class UserController extends Controller
         return view('user.tim-kiem', compact(['list_ctdt', 'list_tai_lieu', 'tai_lieu_moi', 'tai_lieu_lien_quan']));
     }
 
+    public function themYeuCau(Request $request){
+        $req = $request->all();
+        $dataCreat = YeuCau::create([
+            'tieu_de' => $req['tieu_de'],
+            'noi_dung' => $req['noi_dung'],
+            'user_id' => Auth::id(),
+        ]);
+        $res = [
+            'rc' => 0,
+            'rd' => 'Thêm dữ liệu thành công.',
+            'data' => $dataCreat
+        ];
+        return json_encode($res);
+    }
     public function doiMatKhau(Request $request)
     {
         Log::info('Đổi mật khẩu:');
