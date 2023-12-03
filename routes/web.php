@@ -59,6 +59,8 @@ Route::group(['prefix' => 'admin','middleware' => ['isAdmin']], function(){
     Route::post('/lay-danh-sach-thong-bao', 'AdminController@layDanhSachThongBao');
     Route::post('/lay-danh-sach-yeu-cau', 'AdminController@layDanhSachYeuCau');
     Route::post('/lay-danh-sach-nguoi-dung', 'AdminController@layDanhSachNguoiDung');
+    Route::post('/danh-dau-yeu-cau-da-xem', 'AdminController@danhDauYeuCauDaXem');
+    Route::post('/check-danh-sach-yeu-cau', 'AdminController@checkDanhSachYeuCau');
 });
 
 Route::get('/404', function () {

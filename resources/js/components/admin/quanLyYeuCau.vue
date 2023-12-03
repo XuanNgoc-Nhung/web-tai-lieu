@@ -29,7 +29,7 @@
                                 <th>Người tạo</th>
                                 <th>Email</th>
                                 <th>Tiêu đề</th>
-                                <th>Nội dung</th>
+                                <th>Trạng thái</th>
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
                             </tr>
@@ -41,10 +41,12 @@
                                 <td><p>{{ item.nguoi_tao?item.nguoi_tao.email:'[Không xác định]'}}</p></td>
                                 <td><p>{{ item.tieu_de }}</p></td>
                                 <td>
-                                    <div v-html="item.noi_dung"></div>
+                                    <p>{{item.trang_thai==0?'Chưa xem':'Đã xem'}}</p>
                                 </td>
                                 <td class="text-center"><p>{{ item.created_at }}</p></td>
                                 <td class="text-center">
+                                    <el-button size="mini" @click.prevent="xemYeuCau(item)" type="primary">Xem
+                                    </el-button>
                                     <el-button size="mini" @click.prevent="showUpdate(item)" type="warning">Trả lời
                                     </el-button>
                                     <el-button size="mini" @click.prevent="confirmDel(item)" type="danger">Xóa
@@ -99,32 +101,36 @@
   </span>
             </el-dialog>
             <el-dialog
-                title="Chỉnh sửa thông báo"
-                :visible.sync="show_update"
+                :title="thongTinXem.tieu_de"
+                :visible.sync="xem_yeu_cau"
+                top="10vh"
                 custom-class="minWidth375"
-                fullscreen
                 :before-close="handleClose">
                 <div>
                     <el-row :gutter="24">
                         <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-                            <label>Tên tài liệu</label>
+                            <label>Người yêu cầu</label>
                             <el-input type="text" placeholder="Nhập" clearable
-                                      v-model="dataUpdate.tieu_de"></el-input>
+                                      disabled
+                                      :value="thongTinXem.nguoi_tao?thongTinXem.nguoi_tao.name:'[Không xác định]'"></el-input>
                         </el-col>
                         <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-                            <label>Mô tả </label>
+                            <label>Email </label>
                             <el-input type="text" placeholder="Nhập" clearable
-                                      v-model="dataUpdate.mo_ta"></el-input>
+                                      disabled
+                                      :value="thongTinXem.nguoi_tao?thongTinXem.nguoi_tao.email:'[Không xác định]'"></el-input>
                         </el-col>
                         <el-col :span="24">
                             <label>Nội dung</label>
-                            <vue-editor v-model="dataUpdate.noi_dung"/>
+<!--                            <vue-editor v-model="thongTinXem.noi_dung"/>-->
+                            <el-card class="box-card">
+                                <div v-html="thongTinXem.noi_dung"></div>
+                            </el-card>
                         </el-col>
                     </el-row>
                 </div>
                 <span slot="footer" class="dialog-footer">
-    <el-button @click="show_update = false">Đóng</el-button>
-    <el-button type="warning" @click="confirmUpdate()">Chỉnh sửa</el-button>
+    <el-button @click="xem_yeu_cau = false">Đóng</el-button>
   </span>
             </el-dialog>
         </el-col>
@@ -166,7 +172,7 @@ export default {
                 status: false,
                 text: 'Loading...'
             },
-            show_update: false,
+            xem_yeu_cau: false,
             show_add: false,
             trangbatdau: false,
             paging: {
@@ -176,11 +182,13 @@ export default {
                 currentPage: 1
             },
             dataUpdate: {},
+            thongTinXem:{},
         }
     },
     mounted() {
         console.log('Mounted Chương trình đào tạo...');
         this.getData();
+        this.checkDanhSachYeuCau();
     },
     methods: {
         confirmDel(item) {
@@ -233,13 +241,41 @@ export default {
             ).catch((e) => {
             })
         },
+        checkDanhSachYeuCau(){
+            rest_api.post('/admin/check-danh-sach-yeu-cau', {}).then(
+                response => {
+                    if (response && response.data.rc == 0){
+                        // this.thongBao('warning', response.data.rd)
+                    } else {
+                        this.thongBao('warning', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
+
+        xemYeuCau(item){
+            this.thongTinXem = item;
+            this.xem_yeu_cau = true;
+            rest_api.post('/admin/danh-dau-yeu-cau-da-xem', {id:this.thongTinXem.id}).then(
+                response => {
+                    if (response && response.data.rc == 0) {
+                    } else {
+                        // this.thongBao('error', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
         showUpdate(item) {
             this.thongBao('warning','Vui lòng phản hồi qua email của người dùng');
             return;
             this.dataUpdate = JSON.parse(JSON.stringify(item))
             console.log('data update:')
             console.log(this.dataUpdate)
-            this.show_update = true;
+            this.xem_yeu_cau = true;
         },
         arrayStringToNumber(arr) {
             let arrOfNum = arr.map(str => {
@@ -287,7 +323,7 @@ export default {
         },
         handleClose() {
             this.show_add = false;
-            this.show_update = false;
+            this.xem_yeu_cau = false;
         },
         layLai(e) {
             this.paging.start = e.start;

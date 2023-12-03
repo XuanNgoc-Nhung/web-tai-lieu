@@ -559,6 +559,34 @@ class AdminController extends Controller
         return json_encode($res);
 
     }
+    public function danhDauYeuCauDaXem(Request $request){
+        $req = $request->all();
+        $check = YeuCau::where('id', $req['id'])->first();
+        if ($check) {
+            $check->trang_thai = 1;
+            $check->save();
+
+        } else {
+
+        }
+    }
+    public function checkDanhSachYeuCau(Request $request){
+        $check = YeuCau::where('trang_thai', 0)->count();
+        if ($check) {
+            $res = [
+                'rc' => 1,
+                'rd' => 'Bạn có '.$check.' yêu cầu chưa xem.',
+                'data' => $check
+            ];
+        } else {
+            $res = [
+                'rc' => 0,
+                'rd' => 'Không tìm thấy dữ liệu',
+                'data' => null
+            ];
+        }
+        return json_encode($res);
+    }
     public function layDanhSachYeuCau(Request $request)
     {
         $req = $request->all();

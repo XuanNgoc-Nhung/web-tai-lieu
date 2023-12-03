@@ -180,8 +180,23 @@ export default {
     mounted() {
         console.log('Mounted Chương trình đào tạo...');
         this.getData();
+        this.checkDanhSachYeuCau()
     },
     methods: {
+        checkDanhSachYeuCau(){
+            rest_api.post('/admin/check-danh-sach-yeu-cau', {}).then(
+                response => {
+                    if (response && response.data.rc == 0){
+                        // this.thongBao('warning', response.data.rd)
+                    } else {
+                        this.thongBao('warning', response.data.rd)
+                    }
+                    this.loading.status = false;
+                }
+            ).catch((e) => {
+            })
+        },
+
         confirmDel(item) {
             this.$confirm('Xác nhận xoá thông tin ?', 'Thông báo', {
                 confirmButtonText: 'Đồng ý',
