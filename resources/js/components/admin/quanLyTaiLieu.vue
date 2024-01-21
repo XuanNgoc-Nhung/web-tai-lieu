@@ -114,15 +114,19 @@
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu chính cho môn <span class="required" style="color: red">*</span></label>
-                            <el-select v-model="dataAdd.mon_hoc_chinh" style="width: 100%" filterable
-                                       placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_mon_hoc"
-                                    :key="item.id"
-                                    :label="item.ten_mon"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+
+                            <eselect style="width:100%" collapseTags v-model="dataUpdate.mon_hoc_chinh"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_mon_hoc" :fields="['ten_mon','id']"/>
+<!--                            <el-select v-model="dataAdd.mon_hoc_chinh" style="width: 100%" filterable-->
+<!--                                       placeholder="Chọn">-->
+<!--                                <el-option-->
+<!--                                    v-for="item in list_mon_hoc"-->
+<!--                                    :key="item.id"-->
+<!--                                    :label="item.ten_mon"-->
+<!--                                    :value="item.id">-->
+<!--                                </el-option>-->
+<!--                            </el-select>-->
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu phụ cho môn </label>
@@ -144,6 +148,7 @@
                             <el-input type="text" placeholder="Nhập" clearable
                                       v-model="dataAdd.ten_tai_lieu"></el-input>
                         </el-col>
+
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Năm xuất bản</label>
                             <el-input type="text" placeholder="Nhập" clearable
@@ -316,15 +321,19 @@
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu chính cho môn <span class="required" style="color: red">*</span></label>
-                            <el-select v-model="dataUpdate.mon_hoc_chinh" style="width: 100%" filterable
-                                       placeholder="Chọn">
-                                <el-option
-                                    v-for="item in list_mon_hoc"
-                                    :key="item.id"
-                                    :label="item.ten_mon"
-                                    :value="item.id">
-                                </el-option>
-                            </el-select>
+
+                            <eselect style="width:100%" collapseTags v-model="dataUpdate.mon_hoc_chinh"
+                                     :placeholder="'Chọn'" filterable
+                                     :data="list_mon_hoc" :fields="['ten_mon','id']"/>
+<!--                            <el-select v-model="dataUpdate.mon_hoc_chinh" style="width: 100%" filterable-->
+<!--                                       placeholder="Chọn">-->
+<!--                                <el-option-->
+<!--                                    v-for="item in list_mon_hoc"-->
+<!--                                    :key="item.id"-->
+<!--                                    :label="item.ten_mon"-->
+<!--                                    :value="item.id">-->
+<!--                                </el-option>-->
+<!--                            </el-select>-->
                         </el-col>
                         <el-col :xs="12" :sm="8" :md="6" :lg="6" :xl="6">
                             <label>Áp dụng làm tài liệu phụ cho môn </label>
